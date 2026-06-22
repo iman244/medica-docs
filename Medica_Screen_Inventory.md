@@ -124,7 +124,7 @@ Cross-cutting screens (`SCR-SHL-*`) — notifications, locale switch — overlay
 |---|---|---|---|---|---|---|
 | `SCR-NUR-01` | NurseLogin | `CMP-NUR-000` | F-401 | `STEP-4A-01` | `API-AUTH-003` | M4 |
 | `SCR-NUR-02` | NurseDashboard | `CMP-NUR-001` | F-405, F-407 | `STEP-4A-02` | `API-FIELD-002` | M4 |
-| `SCR-NUR-03` | DailyRouteList | `CMP-NUR-002` | F-415, F-416, F-417, F-418 | `STEP-4A-03` | `API-FIELD-001` | M4 |
+| `SCR-NUR-03` | DailyRouteList (today/tomorrow/week) | `CMP-NUR-002` | F-415, F-416, F-417, F-418, F-409 | `STEP-4A-03` | `API-FIELD-001` | M4 |
 | `SCR-NUR-04` | VisitCheckin | `CMP-NUR-003` | F-430 | `STEP-4A-04` | `API-FIELD-003` | M4 |
 | `SCR-NUR-05` | PatientVisitCard | `CMP-NUR-004` | F-431, F-432 | `STEP-4A-05` | `API-FIELD-004` | M4 |
 | `SCR-NUR-06` | ColdChainEntry | `CMP-NUR-005` | F-433 | `STEP-4A-06` | `API-FIELD-005` | M4 |

@@ -253,7 +253,7 @@ ID scheme: `PF-A` flow · `PF-A.H3` happy step 3 · `PF-A.U2` unhappy branch 2 (
 **Happy**
 - `NF-A.H1` Nurse logs in · F-401
 - `NF-A.H2` Nurse dashboard & status · F-405, F-407
-- `NF-A.H3` View daily route & navigate · F-415, F-416, F-417, F-418
+- `NF-A.H3` View route & schedule (today / tomorrow / week) · F-415, F-416, F-417, F-418, F-409
 - `NF-A.H4` GPS check-in at the patient's location · F-430 · may trigger: `NF-A.U1`
 - `NF-A.H5` View patient profile + today's dose · F-431, F-432 · may trigger: `NF-A.U2`
 - `NF-A.H6` Record cold-chain temperature · F-433 · may trigger: `NF-A.U3`

@@ -165,6 +165,7 @@
 - **F-406** — Emergency visit notification (urgent assignment)
 - **F-407** — Next status (ready, en route, in visit, break)
 - **F-408** — Week/month summary (visit count, income)
+- **F-409** — Schedule horizon — view tomorrow's and the week-ahead assigned visits on the route screen (today/tomorrow/week range selector; navigation/ETA active for today only)
 - **F-410** — Notifications from Medica support
 
 ### 7.3 Daily Route (Optime AI)

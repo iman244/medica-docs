@@ -110,7 +110,7 @@ Notes: these are **frontend** health checks (the Next.js process); each FastAPI 
 |---|---|---|---|
 | `SCR-NUR-01` | `/nurse/login` | public | NurseLogin (`CMP-NUR-000`) |
 | `SCR-NUR-02` | `/nurse` | index | NurseDashboard (`CMP-NUR-001`) |
-| `SCR-NUR-03` | `/nurse/route` | static | DailyRouteList (`CMP-NUR-002`) |
+| `SCR-NUR-03` | `/nurse/route` (range: today / tomorrow / week) | static | DailyRouteList (`CMP-NUR-002`) |
 | `SCR-NUR-04` | `/nurse/visits/[id]/checkin` | dynamic | VisitCheckin (`CMP-NUR-003`) |
 | `SCR-NUR-05` | `/nurse/visits/[id]` | dynamic | PatientVisitCard (`CMP-NUR-004`) |
 | `SCR-NUR-06` | `/nurse/visits/[id]/cold-chain` | dynamic | ColdChainEntry (`CMP-NUR-005`) |

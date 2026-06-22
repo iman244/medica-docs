@@ -2,7 +2,7 @@
 
 For each feature (`F-` id from `Medica_p0_features_en.md`), the flow ids in `Medica_User_Flows.md` that realize it. The forward direction (flow → feature) lives in the User Flows doc. Flow id types: **H** happy step · **U** unhappy branch · **R** shared/unique recovery.
 
-Coverage: **224 of 245** features are realized by a flow; the remaining **21** have no flow step (listed at the end).
+Coverage: **225 of 246** features are realized by a flow; the remaining **21** have no flow step (listed at the end).
 ---
 
 ## Feature id → Flow ids
@@ -113,6 +113,7 @@ Coverage: **224 of 245** features are realized by a flow; the remaining **21** h
 | `F-406` | `OP-B.H3` |
 | `F-407` | `NF-A.H2` |
 | `F-408` | `NF-C.H6` |
+| `F-409` | `NF-A.H3` |
 | `F-410` | `NF-C.H7` |
 | `F-415` | `NF-A.H3` |
 | `F-416` | `NF-A.H3` |
@@ -268,4 +269,4 @@ Owned by the i18n layer (`pkg-i18n`), applied to **every** flow's UI and notific
 | `F-094` | Localized notifications — SMS/push/email rendered in the recipient locale. |
 
 ---
-*Accounting: 224 mapped + 16 removed + 5 cross-cutting = 245 of 245. **All features accounted for.** Generated from `Medica_User_Flows.md`.*
+*Accounting: 225 mapped + 16 removed + 5 cross-cutting = 246 of 246. **All features accounted for.** Generated from `Medica_User_Flows.md`.*

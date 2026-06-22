@@ -348,11 +348,11 @@ Doctor scheduling F-340 `[manual→M6]`; refund F-147 `[manual→M4]`; F-301, F-
   - data · ← `status` · → `nurse_status{ status, updated_at }`
 - comp · `CMP-NUR-001` · NurseDashboard · mfe-nurse · status + summary
 
-**STEP-4A-03 — View daily route & navigate** · serves F-415, F-416, F-417, F-418 · [order manual→M5]
+**STEP-4A-03 — View route & schedule (today / tomorrow / week)** · serves F-415, F-416, F-417, F-418, F-409 · [order manual→M5]
 - actor: nurse (self) · requires: `route:read:self`
-- api · `API-FIELD-001` · GET /me/route · field · own day's visit list
-  - data · → `route{ date }, nurse_visit[]{ id, patient_name, address_snapshot, scheduled_at, eta, status }`
-- comp · `CMP-NUR-002` · DailyRouteList · mfe-nurse · list + ETA + nav link
+- api · `API-FIELD-001` · GET /me/route?range=today|tomorrow|week · field · own visit list for the selected horizon (default `today`; navigation/ETA active for `today` only — future ranges are read-only planning views)
+  - data · → `route{ range, from, to }, nurse_visit[]{ id, patient_name, address_snapshot, scheduled_at, eta, status }`
+- comp · `CMP-NUR-002` · DailyRouteList · mfe-nurse · list + ETA + nav link, with a today/tomorrow/week range selector
 
 **STEP-4A-04 — GPS check-in** · serves F-430
 - actor: nurse (assigned) · requires: `nurse_visit:write:assigned`
