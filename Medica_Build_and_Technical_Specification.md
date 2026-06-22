@@ -443,11 +443,12 @@ Doctor scheduling F-340 `[manual→M6]`; refund F-147 `[manual→M4]`; F-301, F-
   - data · ← `signature_or_otp` · → `service_receipt{ confirmed_at }`
 - comp · `CMP-PAT-054` · ServiceReceipt · mfe-patient · confirm service
 
-**STEP-4B-06 — See injection history** · serves F-175
+**STEP-4B-06 — My Injections (history + weight chart)** · serves F-175, F-179
 - actor: patient (self) · requires: `nurse_visit:read:self`
 - api · `API-FIELD-023` · GET /me/injections · field · own injection history
   - data · → `injection_record[]{ administered_at, dose, site, vial_id }`
-- comp · `CMP-PAT-055` · InjectionHistory · mfe-patient · history
+- comp · `CMP-PAT-055` · MyInjections · mfe-patient · injection list + **weight-across-injections line chart** (overlays the patient's own weight log — `health_record`, F-116/F-117 via `API-PATIENT-055` — onto the injection dates)
+- *patient-app only: the dashboard surfaces **My Injections** in place of the old "my prescriptions" tile. The chart reads the patient's existing weight series; no nurse/doctor/other-app changes. A prescription stays viewable inside its visit (`STEP-3B-10`).*
 
 **STEP-4B-07 — Next-injection reminder** · serves F-176 · [int·Kavenegar/Pushe]
 - actor: system → patient · requires: n/a

@@ -333,12 +333,12 @@ Every task has a **`T-###` id** and its flow id. Tasks are happy (`.H`)/unhappy 
 - **patient app** · frontend (`mfe-patient`)
   - `CMP-PAT-057` · NurseTracker — live map **(3 pt)**
 
-### `T-055` · `PF-E.H7` See injection history — **2 pts**
+### `T-055` · `PF-E.H7` See My Injections — history + weight-across-injections chart — **2 pts**
 *happy · depends on: PF-E.H6 · STEP-4B-06*
 - **`field` service** · backend
   - `API-FIELD-023` · GET /me/injections — own injection history **(1 pt)**
 - **patient app** · frontend (`mfe-patient`)
-  - `CMP-PAT-055` · InjectionHistory — history **(1 pt)**
+  - `CMP-PAT-055` · MyInjections — injection list + **weight-across-injections line chart** (overlays the patient's own weight log — `health_record`, F-116/F-117 via `API-PATIENT-055` — onto the injection dates) **(1 pt)**
 
 ### `T-056` · `PF-E.H8` Next-injection reminder — **3 pts**
 *happy · depends on: PF-E.H7 · STEP-4B-07*

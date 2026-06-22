@@ -85,10 +85,11 @@
 - **F-171** — Confirm/change nurse visit time
 - **F-172** — Live tracking of nurse location en route (Optime AI)
 - **F-174** — Digital confirmation of service receipt (signature/OTP)
-- **F-175** — Injection history (date, dose, vial number)
+- **F-175** — My Injections — injection history (date, dose, vial)
 - **F-176** — Next-injection reminder
 - **F-177** — Side-effect report (drop-down + free text)
 - **F-178** — Urgent flag for severe side effect → referral to doctor
+- **F-179** — Weight-across-injections chart on My Injections (overlays the patient's own weight log on the injection timeline); replaces the **patient-app** dashboard "my prescriptions" tile
 
 ### 5.8 Adherence
 - **F-185** — Weekly/monthly adherence chart

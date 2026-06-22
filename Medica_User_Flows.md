@@ -139,7 +139,7 @@ ID scheme: `PF-A` flow · `PF-A.H3` happy step 3 · `PF-A.U2` unhappy branch 2 (
 - `PF-E.H4` Confirm medication received · F-222 · **M5**
 - `PF-E.H5` Confirm service received · F-174 · **M5**
 - `PF-E.H6` Track the nurse live · F-172 · may trigger: `PF-E.U2` · **M5**
-- `PF-E.H7` See injection history · F-175 · **M5**
+- `PF-E.H7` See My Injections — history + weight-across-injections chart · F-175, F-179 · **M5**
 - `PF-E.H8` Next-injection reminder · F-176 · **M5**
 
 **Unhappy**

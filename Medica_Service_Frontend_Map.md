@@ -1,8 +1,8 @@
 # Medica — Service & Microfrontend Map
 
-Architecture tied to the flows. Part A = services → endpoints → flow steps. Part B = microfrontends → routes → flow steps. Tags **H**/**U**/**R**, via the feature map.
+Part A = services → endpoints → flow steps. Part B = MFEs → routes → flow steps. Tags **H**/**U**/**R**.
 ---
-## Part A — Backend microservices (API path → flow steps)
+## Part A — Backend microservices
 
 ### `auth` · identity & sessions
 | API id | method · path | serves (flow ids) |
@@ -162,7 +162,7 @@ Architecture tied to the flows. Part A = services → endpoints → flow steps. 
 | `API-GW-022` | `POST /ops/reschedule` | `OP-B.H5`, `R-RESCHEDULE` |
 | `API-GW-023` | `CRUD /admin/settings` | `OP-D.H6` |
 
-## Part B — Microfrontends (route path → flow steps)
+## Part B — Microfrontends
 
 ### Marketing / landing — public (`/`)
 | path | screen | serves (flow ids) |
@@ -318,4 +318,4 @@ Architecture tied to the flows. Part A = services → endpoints → flow steps. 
 | `— (drawer overlay)` | CMP-SHL-005 | `PF-B.H9`, `PF-E.H8` |
 
 ---
-*Generated from build spec, site map, and feature map.*
+*Generated from build spec, site map, feature map.*

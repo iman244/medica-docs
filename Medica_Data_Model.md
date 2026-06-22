@@ -173,6 +173,7 @@ Owns nurse visits, injections, field cold-chain, routing, nurse inventory, and s
 
 **injection_record** · serves F-437, F-175 · STEP-4A-08
 - fields: `nurse_visit_id` (→ nurse_visit), `patient_id`, `nurse_id`, `vial_id` (→ pharm.vial, by id), `dose`, `site` (rotation code), `administered_at`
+- *the My-Injections weight chart (F-179) overlays the patient's own `health_record` weight series (F-116/F-117) onto these injection dates — no weight is stored on the injection itself.*
 
 **assessment_record** · serves F-434 · STEP-4A-07
 - fields: `nurse_visit_id`, `vitals` (jsonb), `recent_side_effects`, `recorded_at`
