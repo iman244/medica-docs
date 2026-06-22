@@ -1,14 +1,10 @@
 # Medica — Service & Microfrontend Map
 
-Architecture tied to the flows. **Part A** lists each backend microservice, its API endpoints, and which flow steps each endpoint serves. **Part B** is a per-microfrontend sitemap (route paths, not page titles), each route tagged with the flow steps it serves.
-
-Flow ids come from `Medica_User_Flows.md`, tagged **H** (happy) · **U** (unhappy) · **R** (recovery), derived through the feature map (`Medica_Flow_Feature_Map.md`).
+Architecture tied to the flows. Part A = services → endpoints → flow steps. Part B = microfrontends → routes → flow steps. Tags **H**/**U**/**R**, via the feature map.
 ---
-
 ## Part A — Backend microservices (API path → flow steps)
 
 ### `auth` · identity & sessions
-
 | API id | method · path | serves (flow ids) |
 |---|---|---|
 | `API-AUTH-001` | `POST /auth/register` | `PF-A.H1`, `PF-A.H2`, `PF-A.U1`, `R-RESEND-OTP` |
@@ -18,7 +14,6 @@ Flow ids come from `Medica_User_Flows.md`, tagged **H** (happy) · **U** (unhapp
 | `API-AUTH-007` | `POST /me/kyc/verify` | `PF-A.H5`, `PF-A.U4`, `R-KYC-REVIEW` |
 
 ### `patient` · profiles, health, eligibility
-
 | API id | method · path | serves (flow ids) |
 |---|---|---|
 | `API-PATIENT-001` | `PUT /me/profile` | `PF-B.H1` |
@@ -45,7 +40,6 @@ Flow ids come from `Medica_User_Flows.md`, tagged **H** (happy) · **U** (unhapp
 | `API-PATIENT-055` | `CRUD /me/addresses` | `PF-G.H6` |
 
 ### `prov` · providers & assignments
-
 | API id | method · path | serves (flow ids) |
 |---|---|---|
 | `API-PROV-001` | `GET /me/patients` | `DF-A.H1` |
@@ -57,7 +51,6 @@ Flow ids come from `Medica_User_Flows.md`, tagged **H** (happy) · **U** (unhapp
 | `API-PROV-030` | `CRUD /me/schedule` | `DF-B.H4` |
 
 ### `visit` · online visits & prescriptions
-
 | API id | method · path | serves (flow ids) |
 |---|---|---|
 | `API-VISIT-001` | `GET /visits/availability` | `PF-D.H1` |
@@ -75,7 +68,6 @@ Flow ids come from `Medica_User_Flows.md`, tagged **H** (happy) · **U** (unhapp
 | `API-VISIT-026` | `GET /me/visits?range=&status=` | `DF-B.H2`, `DF-B.H3`, `DF-B.H5` |
 
 ### `field` · logistics, nurse visits, routing
-
 | API id | method · path | serves (flow ids) |
 |---|---|---|
 | `API-FIELD-001` | `GET /me/route?range=today|tomorrow|week` | `NF-A.H3` |
@@ -103,10 +95,9 @@ Flow ids come from `Medica_User_Flows.md`, tagged **H** (happy) · **U** (unhapp
 | `API-FIELD-051` | `GET /replacements` | `NF-A.H6`, `OP-C.H2`, `NF-A.U3`, `R-REPLACE` |
 
 ### `pay` · payments, wallet, settlements
-
 | API id | method · path | serves (flow ids) |
 |---|---|---|
-| `API-PAY-001/002` | `POST /payments/{checkout,callback}` | `PF-C.H2`, `PF-C.U1`, `R-PAY-RETRY` |
+| `API-PAY-001/002` | `POST /payments/{checkout,callback}` | `PF-C.H2`, `PF-C.U1`, `PF-D.U3`, `R-PAY-RETRY`, `R-SUBSCRIBE-GATE` |
 | `API-PAY-007` | `POST /wallet/{patientId}/refund` | `OP-D.H1`, `PF-C.U4`, `R-REFUND` |
 | `API-PAY-020` | `GET /me/finance` | `DF-B.H7` |
 | `API-PAY-021` | `GET /me/finance` | `NF-C.H8` |
@@ -117,7 +108,6 @@ Flow ids come from `Medica_User_Flows.md`, tagged **H** (happy) · **U** (unhapp
 | `API-PAY-030` | `GET /finance/dashboard` | `OP-D.H3`, `OP-D.U1`, `R-CHARGEBACK` |
 
 ### `pharm` · pharmacy inventory & cold-chain
-
 | API id | method · path | serves (flow ids) |
 |---|---|---|
 | `API-PHARM-002` | `GET /me/pharmacy/inventory` | `PH-A.H2` |
@@ -130,17 +120,15 @@ Flow ids come from `Medica_User_Flows.md`, tagged **H** (happy) · **U** (unhapp
 | `API-PHARM-011` | `GET /recalls/{id}/affected` | `OP-B.H4`, `PH-B.H1`, `PH-B.H2`, `OP-B.U2`, `PH-B.U1`, `R-INCIDENT-TRIAGE`, `R-RECALL` |
 
 ### `sub` · subscriptions
-
 | API id | method · path | serves (flow ids) |
 |---|---|---|
-| `API-SUB-001` | `GET /subscriptions/packages` | `PF-C.H1` |
-| `API-SUB-002` | `POST /me/subscriptions` | `PF-C.H2`, `PF-C.U1`, `R-PAY-RETRY` |
+| `API-SUB-001` | `GET /subscriptions/packages` | `PF-C.H1`, `PF-D.U3`, `R-SUBSCRIBE-GATE` |
+| `API-SUB-002` | `POST /me/subscriptions` | `PF-C.H2`, `PF-C.U1`, `PF-D.U3`, `R-PAY-RETRY`, `R-SUBSCRIBE-GATE` |
 | `API-SUB-003` | `PATCH /me/subscriptions/{subId}/renewal` | `PF-C.H3`, `PF-C.U2`, `PF-C.U3`, `R-DUNNING`, `R-REACTIVATE` |
 | `API-SUB-004` | `POST /me/subscriptions/{subId}/cancel` | `PF-C.H4` |
 | `API-SUB-010` | `POST /me/subscriptions/discount` | `PF-G.H9`, `PF-C.U4`, `R-REFUND` |
 
 ### `notif` · notifications
-
 | API id | method · path | serves (flow ids) |
 |---|---|---|
 | `API-NOTIF-001/002` | `POST /notify/{sms,push}` | `PF-B.H9` |
@@ -149,7 +137,6 @@ Flow ids come from `Medica_User_Flows.md`, tagged **H** (happy) · **U** (unhapp
 | `API-NOTIF-010` | `POST /campaigns/sms` | `OP-D.H5`, `OP-D.U3`, `R-BULK-RETRY` |
 
 ### `crm` · CS & affiliate
-
 | API id | method · path | serves (flow ids) |
 |---|---|---|
 | `API-CRM-001` | `CRUD /me/support/chat` | `PF-G.H7` |
@@ -160,14 +147,12 @@ Flow ids come from `Medica_User_Flows.md`, tagged **H** (happy) · **U** (unhapp
 | `API-CRM-022` | `GET /me/affiliate/commission` | `AF-A.H4`, `AF-A.U3`, `R-CS-TICKET` |
 
 ### `rpt` · reporting/BI
-
 | API id | method · path | serves (flow ids) |
 |---|---|---|
 | `API-RPT-001` | `GET /growth` | `OP-D.H4` |
 | `API-RPT-002` | `GET /reports` | `OP-D.H7` |
 
 ### `gw` · gateway / admin
-
 | API id | method · path | serves (flow ids) |
 |---|---|---|
 | `API-GW-010` | `GET /patients` | `OP-A.H1` |
@@ -180,7 +165,6 @@ Flow ids come from `Medica_User_Flows.md`, tagged **H** (happy) · **U** (unhapp
 ## Part B — Microfrontends (route path → flow steps)
 
 ### Marketing / landing — public (`/`)
-
 | path | screen | serves (flow ids) |
 |---|---|---|
 | `/` | CMP-MKT-001 | `MF-A.H1` |
@@ -188,7 +172,6 @@ Flow ids come from `Medica_User_Flows.md`, tagged **H** (happy) · **U** (unhapp
 | `/eligibility-check` | CMP-MKT-003 | `MF-A.H3`, `MF-A.U2`, `MF-A.U3`, `R-GUIDANCE-CTA`, `R-PREVIEW-RETRY` |
 
 ### Patient app — authenticated, root paths
-
 | path | screen | serves (flow ids) |
 |---|---|---|
 | `/home` | CMP-PAT-000 | `PF-B.H10` |
@@ -204,8 +187,8 @@ Flow ids come from `Medica_User_Flows.md`, tagged **H** (happy) · **U** (unhapp
 | `/eligibility` | CMP-PAT-020 | `PF-B.H6` |
 | `/eligibility/result` | CMP-PAT-021 | `PF-B.H7`, `PF-B.U2`, `PF-B.U3`, `R-ELIG-REVIEW` |
 | `/consent` | CMP-PAT-022 | `PF-B.H8` |
-| `/plans` | CMP-PAT-030 | `PF-C.H1` |
-| `/checkout` | CMP-PAT-031 | `PF-C.H2`, `PF-C.U1`, `R-PAY-RETRY` |
+| `/plans` | CMP-PAT-030 | `PF-C.H1`, `PF-D.U3`, `R-SUBSCRIBE-GATE` |
+| `/checkout` | CMP-PAT-031 | `PF-C.H2`, `PF-C.U1`, `PF-D.U3`, `R-PAY-RETRY`, `R-SUBSCRIBE-GATE` |
 | `/subscription` | CMP-PAT-032 | `PF-C.H3`, `PF-C.U2`, `PF-C.U3`, `R-DUNNING`, `R-REACTIVATE` |
 | `/subscription/cancel` | CMP-PAT-034 | `PF-C.H4` |
 | `/wallet` | CMP-PAT-033 | `PF-C.H5` |
@@ -232,7 +215,6 @@ Flow ids come from `Medica_User_Flows.md`, tagged **H** (happy) · **U** (unhapp
 | `/perks` | CMP-PAT-068 | `PF-G.H9`, `PF-C.U4`, `R-REFUND` |
 
 ### Doctor panel (`/doctor`)
-
 | path | screen | serves (flow ids) |
 |---|---|---|
 | `/doctor/patients` | CMP-DOC-001 | `DF-A.H1` |
@@ -249,7 +231,6 @@ Flow ids come from `Medica_User_Flows.md`, tagged **H** (happy) · **U** (unhapp
 | `/doctor/prescriptions` | CMP-DOC-015 | `DF-A.H5`, `DF-A.H6`, `DF-A.H8`, `DF-B.H6`, `DF-A.U2`, `DF-A.U3`, `PF-D.U2`, `R-RXFIX` |
 
 ### Nurse app (`/nurse`)
-
 | path | screen | serves (flow ids) |
 |---|---|---|
 | `/nurse/login` | CMP-NUR-000 | `NF-A.H1` |
@@ -276,7 +257,6 @@ Flow ids come from `Medica_User_Flows.md`, tagged **H** (happy) · **U** (unhapp
 | `/nurse/hotline` | CMP-NUR-032 | `NF-C.H9` |
 
 ### Pharmacy-hub panel (`/pharmacy`)
-
 | path | screen | serves (flow ids) |
 |---|---|---|
 | `/pharmacy` | CMP-PHM-001 | `PH-A.H2` |
@@ -288,7 +268,6 @@ Flow ids come from `Medica_User_Flows.md`, tagged **H** (happy) · **U** (unhapp
 | `/pharmacy/commission` | CMP-PHM-010 | `PH-A.H8` |
 
 ### Admin / ops panel (`/admin`)
-
 | path | screen | serves (flow ids) |
 |---|---|---|
 | `/admin/patients` | CMP-ADM-001 | `OP-A.H1` |
@@ -314,7 +293,6 @@ Flow ids come from `Medica_User_Flows.md`, tagged **H** (happy) · **U** (unhapp
 | `/admin/affiliates` | CMP-ADM-040 | `AF-A.H3`, `AF-A.U2` |
 
 ### Customer-service panel (`/cs`)
-
 | path | screen | serves (flow ids) |
 |---|---|---|
 | `/cs` | CMP-CS-001 | `CS-A.H1`, `OP-B.H2`, `NF-C.U1`, `R-TRACK-FALLBACK` |
@@ -327,7 +305,6 @@ Flow ids come from `Medica_User_Flows.md`, tagged **H** (happy) · **U** (unhapp
 | `/cs/dashboard` | CMP-CS-008 | `CS-A.H3` |
 
 ### Affiliate panel (`/affiliate`)
-
 | path | screen | serves (flow ids) |
 |---|---|---|
 | `/affiliate` | CMP-AFF-001 | `AF-A.H1` |
@@ -336,10 +313,9 @@ Flow ids come from `Medica_User_Flows.md`, tagged **H** (happy) · **U** (unhapp
 | `/affiliate/codes` | CMP-AFF-004 | `AF-A.H3`, `AF-A.U2` |
 
 ### Shared (shell overlays)
-
 | path | screen | serves (flow ids) |
 |---|---|---|
 | `— (drawer overlay)` | CMP-SHL-005 | `PF-B.H9`, `PF-E.H8` |
 
 ---
-*Generated from `Medica_Build_and_Technical_Specification.md`, `Medica_Site_Map.md`, and `Medica_Flow_Feature_Map.md`. Regenerate if any change.*
+*Generated from build spec, site map, and feature map.*

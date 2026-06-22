@@ -6,6 +6,8 @@
       <bpmn:lane id="Lane_J-VISIT_Patient" name="Patient">
         <bpmn:flowNodeRef>s0</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_book</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_sub</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_sub</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_remind</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t_join</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>g_show</bpmn:flowNodeRef>
@@ -29,137 +31,155 @@
     <bpmn:startEvent id="s0" name="Visit booked">
       <bpmn:outgoing>f0</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:task id="t_book" name="Book visit (PF-D.H1)">
+    <bpmn:task id="t_book" name="Book visit — pending (PF-D.H1)">
       <bpmn:incoming>f0</bpmn:incoming>
       <bpmn:outgoing>f1</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_remind" name="Reminder (PF-D.H2)">
+    <bpmn:exclusiveGateway id="g_sub" name="Active subscription?">
       <bpmn:incoming>f1</bpmn:incoming>
       <bpmn:outgoing>f2</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:task id="t_join" name="Join phone visit (PF-D.H3)">
-      <bpmn:incoming>f2</bpmn:incoming>
       <bpmn:outgoing>f3</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:exclusiveGateway id="g_show" name="Patient shows?">
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="t_sub" name="Subscribe &amp; pay — confirms visit (PF-C / R-SUBSCRIBE-GATE)">
       <bpmn:incoming>f3</bpmn:incoming>
       <bpmn:outgoing>f4</bpmn:outgoing>
-      <bpmn:outgoing>f5</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:task id="t_emr" name="Open EMR (DF-A.H2)">
+    </bpmn:task>
+    <bpmn:task id="t_remind" name="Reminder (PF-D.H2)">
+      <bpmn:incoming>f2</bpmn:incoming>
       <bpmn:incoming>f4</bpmn:incoming>
-      <bpmn:outgoing>f7</bpmn:outgoing>
+      <bpmn:outgoing>f5</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:exclusiveGateway id="g_rec" name="Record complete?">
-      <bpmn:incoming>f7</bpmn:incoming>
-      <bpmn:outgoing>f8</bpmn:outgoing>
-      <bpmn:outgoing>f9</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:task id="t_soap" name="Conduct visit + SOAP (DF-A.H3/H4)">
-      <bpmn:incoming>f8</bpmn:incoming>
-      <bpmn:incoming>f10</bpmn:incoming>
-      <bpmn:outgoing>f11</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:task id="t_rx" name="Link external Rx (DF-A.H5)">
-      <bpmn:incoming>f11</bpmn:incoming>
-      <bpmn:incoming>f15</bpmn:incoming>
-      <bpmn:outgoing>f12</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:exclusiveGateway id="g_rx" name="Rx accepted?">
-      <bpmn:incoming>f12</bpmn:incoming>
-      <bpmn:outgoing>f13</bpmn:outgoing>
-      <bpmn:outgoing>f14</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:task id="t_cf" name="Confirm Rx status (DF-A.H6)">
-      <bpmn:incoming>f13</bpmn:incoming>
-      <bpmn:outgoing>f16</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:task id="t_next" name="Auto-schedule next (DF-A.H7)">
-      <bpmn:incoming>f16</bpmn:incoming>
-      <bpmn:outgoing>f17</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:task id="t_dl" name="Patient views/downloads Rx (PF-D.H4)">
-      <bpmn:incoming>f17</bpmn:incoming>
-      <bpmn:outgoing>f18</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:endEvent id="e_done" name="Visit complete; Rx active">
-      <bpmn:incoming>f18</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:task id="r_resched" name="No-show -&gt; reschedule (R-RESCHEDULE)">
+    <bpmn:task id="t_join" name="Join phone visit (PF-D.H3)">
       <bpmn:incoming>f5</bpmn:incoming>
       <bpmn:outgoing>f6</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:endEvent id="e_rebook" name="Rebook visit">
+    <bpmn:exclusiveGateway id="g_show" name="Patient shows?">
       <bpmn:incoming>f6</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:task id="r_complete" name="Prompt to complete (R-COMPLETE-RECORD)">
-      <bpmn:incoming>f9</bpmn:incoming>
+      <bpmn:outgoing>f7</bpmn:outgoing>
+      <bpmn:outgoing>f8</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="t_emr" name="Open EMR (DF-A.H2)">
+      <bpmn:incoming>f7</bpmn:incoming>
       <bpmn:outgoing>f10</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="r_rxfix" name="Re-issue + re-link (R-RXFIX)">
+    <bpmn:exclusiveGateway id="g_rec" name="Record complete?">
+      <bpmn:incoming>f10</bpmn:incoming>
+      <bpmn:outgoing>f11</bpmn:outgoing>
+      <bpmn:outgoing>f12</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="t_soap" name="Conduct visit + SOAP (DF-A.H3/H4)">
+      <bpmn:incoming>f11</bpmn:incoming>
+      <bpmn:incoming>f13</bpmn:incoming>
+      <bpmn:outgoing>f14</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t_rx" name="Link external Rx (DF-A.H5)">
       <bpmn:incoming>f14</bpmn:incoming>
+      <bpmn:incoming>f18</bpmn:incoming>
       <bpmn:outgoing>f15</bpmn:outgoing>
     </bpmn:task>
+    <bpmn:exclusiveGateway id="g_rx" name="Rx accepted?">
+      <bpmn:incoming>f15</bpmn:incoming>
+      <bpmn:outgoing>f16</bpmn:outgoing>
+      <bpmn:outgoing>f17</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="t_cf" name="Confirm Rx status (DF-A.H6)">
+      <bpmn:incoming>f16</bpmn:incoming>
+      <bpmn:outgoing>f19</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t_next" name="Auto-schedule next (DF-A.H7)">
+      <bpmn:incoming>f19</bpmn:incoming>
+      <bpmn:outgoing>f20</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t_dl" name="Patient views/downloads Rx (PF-D.H4)">
+      <bpmn:incoming>f20</bpmn:incoming>
+      <bpmn:outgoing>f21</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="e_done" name="Visit complete; Rx active">
+      <bpmn:incoming>f21</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="r_resched" name="No-show → reschedule (R-RESCHEDULE)">
+      <bpmn:incoming>f8</bpmn:incoming>
+      <bpmn:outgoing>f9</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="e_rebook" name="Rebook visit">
+      <bpmn:incoming>f9</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="r_complete" name="Prompt to complete (R-COMPLETE-RECORD)">
+      <bpmn:incoming>f12</bpmn:incoming>
+      <bpmn:outgoing>f13</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="r_rxfix" name="Re-issue + re-link (R-RXFIX)">
+      <bpmn:incoming>f17</bpmn:incoming>
+      <bpmn:outgoing>f18</bpmn:outgoing>
+    </bpmn:task>
     <bpmn:sequenceFlow id="f0" sourceRef="s0" targetRef="t_book" />
-    <bpmn:sequenceFlow id="f1" sourceRef="t_book" targetRef="t_remind" />
-    <bpmn:sequenceFlow id="f2" sourceRef="t_remind" targetRef="t_join" />
-    <bpmn:sequenceFlow id="f3" sourceRef="t_join" targetRef="g_show" />
-    <bpmn:sequenceFlow id="f4" name="shows" sourceRef="g_show" targetRef="t_emr" />
-    <bpmn:sequenceFlow id="f5" name="no-show" sourceRef="g_show" targetRef="r_resched" />
-    <bpmn:sequenceFlow id="f6" sourceRef="r_resched" targetRef="e_rebook" />
-    <bpmn:sequenceFlow id="f7" sourceRef="t_emr" targetRef="g_rec" />
-    <bpmn:sequenceFlow id="f8" name="complete" sourceRef="g_rec" targetRef="t_soap" />
-    <bpmn:sequenceFlow id="f9" name="incomplete" sourceRef="g_rec" targetRef="r_complete" />
-    <bpmn:sequenceFlow id="f10" sourceRef="r_complete" targetRef="t_soap" />
-    <bpmn:sequenceFlow id="f11" sourceRef="t_soap" targetRef="t_rx" />
-    <bpmn:sequenceFlow id="f12" sourceRef="t_rx" targetRef="g_rx" />
-    <bpmn:sequenceFlow id="f13" name="accepted" sourceRef="g_rx" targetRef="t_cf" />
-    <bpmn:sequenceFlow id="f14" name="rejected / unreachable" sourceRef="g_rx" targetRef="r_rxfix" />
-    <bpmn:sequenceFlow id="f15" sourceRef="r_rxfix" targetRef="t_rx" />
-    <bpmn:sequenceFlow id="f16" sourceRef="t_cf" targetRef="t_next" />
-    <bpmn:sequenceFlow id="f17" sourceRef="t_next" targetRef="t_dl" />
-    <bpmn:sequenceFlow id="f18" sourceRef="t_dl" targetRef="e_done" />
+    <bpmn:sequenceFlow id="f1" sourceRef="t_book" targetRef="g_sub" />
+    <bpmn:sequenceFlow id="f2" name="active" sourceRef="g_sub" targetRef="t_remind" />
+    <bpmn:sequenceFlow id="f3" name="none — must subscribe" sourceRef="g_sub" targetRef="t_sub" />
+    <bpmn:sequenceFlow id="f4" name="paid → confirmed" sourceRef="t_sub" targetRef="t_remind" />
+    <bpmn:sequenceFlow id="f5" sourceRef="t_remind" targetRef="t_join" />
+    <bpmn:sequenceFlow id="f6" sourceRef="t_join" targetRef="g_show" />
+    <bpmn:sequenceFlow id="f7" name="shows" sourceRef="g_show" targetRef="t_emr" />
+    <bpmn:sequenceFlow id="f8" name="no-show" sourceRef="g_show" targetRef="r_resched" />
+    <bpmn:sequenceFlow id="f9" sourceRef="r_resched" targetRef="e_rebook" />
+    <bpmn:sequenceFlow id="f10" sourceRef="t_emr" targetRef="g_rec" />
+    <bpmn:sequenceFlow id="f11" name="complete" sourceRef="g_rec" targetRef="t_soap" />
+    <bpmn:sequenceFlow id="f12" name="incomplete" sourceRef="g_rec" targetRef="r_complete" />
+    <bpmn:sequenceFlow id="f13" sourceRef="r_complete" targetRef="t_soap" />
+    <bpmn:sequenceFlow id="f14" sourceRef="t_soap" targetRef="t_rx" />
+    <bpmn:sequenceFlow id="f15" sourceRef="t_rx" targetRef="g_rx" />
+    <bpmn:sequenceFlow id="f16" name="accepted" sourceRef="g_rx" targetRef="t_cf" />
+    <bpmn:sequenceFlow id="f17" name="rejected / unreachable" sourceRef="g_rx" targetRef="r_rxfix" />
+    <bpmn:sequenceFlow id="f18" sourceRef="r_rxfix" targetRef="t_rx" />
+    <bpmn:sequenceFlow id="f19" sourceRef="t_cf" targetRef="t_next" />
+    <bpmn:sequenceFlow id="f20" sourceRef="t_next" targetRef="t_dl" />
+    <bpmn:sequenceFlow id="f21" sourceRef="t_dl" targetRef="e_done" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="Dg_J-VISIT"><bpmndi:BPMNPlane id="Pl_J-VISIT" bpmnElement="Collab_J-VISIT">
-    <bpmndi:BPMNShape id="Pool_J-VISIT_di" bpmnElement="Pool_J-VISIT" isHorizontal="true"><dc:Bounds x="150" y="50" width="2806" height="640" /></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="Lane_J-VISIT_Patient_di" bpmnElement="Lane_J-VISIT_Patient" isHorizontal="true"><dc:Bounds x="180" y="60" width="2776" height="300" /></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="Lane_J-VISIT_Doctor_di" bpmnElement="Lane_J-VISIT_Doctor" isHorizontal="true"><dc:Bounds x="180" y="360" width="2776" height="300" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Pool_J-VISIT_di" bpmnElement="Pool_J-VISIT" isHorizontal="true"><dc:Bounds x="150" y="50" width="3206" height="640" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_J-VISIT_Patient_di" bpmnElement="Lane_J-VISIT_Patient" isHorizontal="true"><dc:Bounds x="180" y="60" width="3176" height="300" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_J-VISIT_Doctor_di" bpmnElement="Lane_J-VISIT_Doctor" isHorizontal="true"><dc:Bounds x="180" y="360" width="3176" height="300" /></bpmndi:BPMNShape>
     <bpmndi:BPMNShape id="s0_di" bpmnElement="s0"><dc:Bounds x="240" y="129" width="36" height="36" /></bpmndi:BPMNShape>
     <bpmndi:BPMNShape id="t_book_di" bpmnElement="t_book"><dc:Bounds x="440" y="115" width="170" height="64" /></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="t_remind_di" bpmnElement="t_remind"><dc:Bounds x="640" y="115" width="170" height="64" /></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="t_join_di" bpmnElement="t_join"><dc:Bounds x="840" y="115" width="170" height="64" /></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="g_show_di" bpmnElement="g_show"><dc:Bounds x="1040" y="122" width="50" height="50" /></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="t_emr_di" bpmnElement="t_emr"><dc:Bounds x="1240" y="415" width="170" height="64" /></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="g_rec_di" bpmnElement="g_rec"><dc:Bounds x="1440" y="422" width="50" height="50" /></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="t_soap_di" bpmnElement="t_soap"><dc:Bounds x="1640" y="415" width="170" height="64" /></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="t_rx_di" bpmnElement="t_rx"><dc:Bounds x="1840" y="415" width="170" height="64" /></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="g_rx_di" bpmnElement="g_rx"><dc:Bounds x="2040" y="422" width="50" height="50" /></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="t_cf_di" bpmnElement="t_cf"><dc:Bounds x="2240" y="415" width="170" height="64" /></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="t_next_di" bpmnElement="t_next"><dc:Bounds x="2440" y="415" width="170" height="64" /></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="t_dl_di" bpmnElement="t_dl"><dc:Bounds x="2640" y="115" width="170" height="64" /></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="e_done_di" bpmnElement="e_done"><dc:Bounds x="2840" y="129" width="36" height="36" /></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="r_resched_di" bpmnElement="r_resched"><dc:Bounds x="1040" y="220" width="170" height="64" /></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="e_rebook_di" bpmnElement="e_rebook"><dc:Bounds x="1040" y="319" width="36" height="36" /></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="r_complete_di" bpmnElement="r_complete"><dc:Bounds x="1440" y="520" width="170" height="64" /></bpmndi:BPMNShape>
-    <bpmndi:BPMNShape id="r_rxfix_di" bpmnElement="r_rxfix"><dc:Bounds x="2040" y="520" width="170" height="64" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="g_sub_di" bpmnElement="g_sub"><dc:Bounds x="640" y="122" width="50" height="50" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="t_sub_di" bpmnElement="t_sub"><dc:Bounds x="840" y="115" width="170" height="64" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="t_remind_di" bpmnElement="t_remind"><dc:Bounds x="1040" y="115" width="170" height="64" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="t_join_di" bpmnElement="t_join"><dc:Bounds x="1240" y="115" width="170" height="64" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="g_show_di" bpmnElement="g_show"><dc:Bounds x="1440" y="122" width="50" height="50" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="t_emr_di" bpmnElement="t_emr"><dc:Bounds x="1640" y="415" width="170" height="64" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="g_rec_di" bpmnElement="g_rec"><dc:Bounds x="1840" y="422" width="50" height="50" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="t_soap_di" bpmnElement="t_soap"><dc:Bounds x="2040" y="415" width="170" height="64" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="t_rx_di" bpmnElement="t_rx"><dc:Bounds x="2240" y="415" width="170" height="64" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="g_rx_di" bpmnElement="g_rx"><dc:Bounds x="2440" y="422" width="50" height="50" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="t_cf_di" bpmnElement="t_cf"><dc:Bounds x="2640" y="415" width="170" height="64" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="t_next_di" bpmnElement="t_next"><dc:Bounds x="2840" y="415" width="170" height="64" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="t_dl_di" bpmnElement="t_dl"><dc:Bounds x="3040" y="115" width="170" height="64" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="e_done_di" bpmnElement="e_done"><dc:Bounds x="3240" y="129" width="36" height="36" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="r_resched_di" bpmnElement="r_resched"><dc:Bounds x="1440" y="220" width="170" height="64" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="e_rebook_di" bpmnElement="e_rebook"><dc:Bounds x="1440" y="319" width="36" height="36" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="r_complete_di" bpmnElement="r_complete"><dc:Bounds x="1840" y="520" width="170" height="64" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="r_rxfix_di" bpmnElement="r_rxfix"><dc:Bounds x="2440" y="520" width="170" height="64" /></bpmndi:BPMNShape>
     <bpmndi:BPMNEdge id="f0_di" bpmnElement="f0"><di:waypoint x="276" y="147" /><di:waypoint x="440" y="147" /></bpmndi:BPMNEdge>
     <bpmndi:BPMNEdge id="f1_di" bpmnElement="f1"><di:waypoint x="610" y="147" /><di:waypoint x="640" y="147" /></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="f2_di" bpmnElement="f2"><di:waypoint x="810" y="147" /><di:waypoint x="840" y="147" /></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="f3_di" bpmnElement="f3"><di:waypoint x="1010" y="147" /><di:waypoint x="1040" y="147" /></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="f4_di" bpmnElement="f4"><di:waypoint x="1065" y="172" /><di:waypoint x="1325" y="415" /></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="f5_di" bpmnElement="f5"><di:waypoint x="1065" y="172" /><di:waypoint x="1125" y="220" /></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="f6_di" bpmnElement="f6"><di:waypoint x="1125" y="284" /><di:waypoint x="1058" y="319" /></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="f7_di" bpmnElement="f7"><di:waypoint x="1410" y="447" /><di:waypoint x="1440" y="447" /></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="f8_di" bpmnElement="f8"><di:waypoint x="1490" y="447" /><di:waypoint x="1640" y="447" /></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="f9_di" bpmnElement="f9"><di:waypoint x="1465" y="472" /><di:waypoint x="1525" y="520" /></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="f10_di" bpmnElement="f10"><di:waypoint x="1525" y="520" /><di:waypoint x="1725" y="479" /></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="f11_di" bpmnElement="f11"><di:waypoint x="1810" y="447" /><di:waypoint x="1840" y="447" /></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="f12_di" bpmnElement="f12"><di:waypoint x="2010" y="447" /><di:waypoint x="2040" y="447" /></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="f13_di" bpmnElement="f13"><di:waypoint x="2090" y="447" /><di:waypoint x="2240" y="447" /></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="f14_di" bpmnElement="f14"><di:waypoint x="2065" y="472" /><di:waypoint x="2125" y="520" /></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="f15_di" bpmnElement="f15"><di:waypoint x="2125" y="520" /><di:waypoint x="1925" y="479" /></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="f16_di" bpmnElement="f16"><di:waypoint x="2410" y="447" /><di:waypoint x="2440" y="447" /></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="f17_di" bpmnElement="f17"><di:waypoint x="2525" y="415" /><di:waypoint x="2725" y="179" /></bpmndi:BPMNEdge>
-    <bpmndi:BPMNEdge id="f18_di" bpmnElement="f18"><di:waypoint x="2810" y="147" /><di:waypoint x="2840" y="147" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f2_di" bpmnElement="f2"><di:waypoint x="690" y="147" /><di:waypoint x="1040" y="147" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f3_di" bpmnElement="f3"><di:waypoint x="690" y="147" /><di:waypoint x="840" y="147" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f4_di" bpmnElement="f4"><di:waypoint x="1010" y="147" /><di:waypoint x="1040" y="147" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f5_di" bpmnElement="f5"><di:waypoint x="1210" y="147" /><di:waypoint x="1240" y="147" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f6_di" bpmnElement="f6"><di:waypoint x="1410" y="147" /><di:waypoint x="1440" y="147" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f7_di" bpmnElement="f7"><di:waypoint x="1465" y="172" /><di:waypoint x="1725" y="415" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f8_di" bpmnElement="f8"><di:waypoint x="1465" y="172" /><di:waypoint x="1525" y="220" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f9_di" bpmnElement="f9"><di:waypoint x="1525" y="284" /><di:waypoint x="1458" y="319" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f10_di" bpmnElement="f10"><di:waypoint x="1810" y="447" /><di:waypoint x="1840" y="447" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f11_di" bpmnElement="f11"><di:waypoint x="1890" y="447" /><di:waypoint x="2040" y="447" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f12_di" bpmnElement="f12"><di:waypoint x="1865" y="472" /><di:waypoint x="1925" y="520" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f13_di" bpmnElement="f13"><di:waypoint x="1925" y="520" /><di:waypoint x="2125" y="479" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f14_di" bpmnElement="f14"><di:waypoint x="2210" y="447" /><di:waypoint x="2240" y="447" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f15_di" bpmnElement="f15"><di:waypoint x="2410" y="447" /><di:waypoint x="2440" y="447" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f16_di" bpmnElement="f16"><di:waypoint x="2490" y="447" /><di:waypoint x="2640" y="447" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f17_di" bpmnElement="f17"><di:waypoint x="2465" y="472" /><di:waypoint x="2525" y="520" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f18_di" bpmnElement="f18"><di:waypoint x="2525" y="520" /><di:waypoint x="2325" y="479" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f19_di" bpmnElement="f19"><di:waypoint x="2810" y="447" /><di:waypoint x="2840" y="447" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f20_di" bpmnElement="f20"><di:waypoint x="2925" y="415" /><di:waypoint x="3125" y="179" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f21_di" bpmnElement="f21"><di:waypoint x="3210" y="147" /><di:waypoint x="3240" y="147" /></bpmndi:BPMNEdge>
   </bpmndi:BPMNPlane></bpmndi:BPMNDiagram>
 </bpmn:definitions>

@@ -137,6 +137,7 @@ Owns online visits, clinical notes, and prescriptions.
 
 **visit** · serves F-150, F-151, F-153, F-157, F-331 · STEP-3B-01, 3B-09
 - fields: `patient_id` (identity_id), `doctor_id` (identity_id), `type` enum(initial/follow_up/emergency), `scheduled_at`, `channel` enum(phone/video/chat), `status` `enum (states in lifecycle spec)`
+- *Booking precedes payment: a patient with no active subscription books into `status = pending_payment`; the subscription purchase (`STEP-3A-02`) confirms it to `scheduled`. The visit stays locked (no join) while `pending_payment`. (User Flows `PF-D.U3 → R-SUBSCRIBE-GATE`.)*
 
 **soap_note** · serves F-328 · STEP-3B-06
 - fields: `visit_id` (→ visit), `subjective`, `objective`, `assessment`, `plan`, `author_id` (doctor identity_id)

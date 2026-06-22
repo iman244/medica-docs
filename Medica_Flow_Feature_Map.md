@@ -1,12 +1,10 @@
 # Medica — Feature → Flow Map
 
-For each feature (`F-` id from `Medica_p0_features_en.md`), the flow ids in `Medica_User_Flows.md` that realize it. The forward direction (flow → feature) lives in the User Flows doc. Flow id types: **H** happy step · **U** unhappy branch · **R** shared/unique recovery.
+For each feature (`F-` id from `Medica_p0_features_en.md`), the flow ids in `Medica_User_Flows.md` that realize it. Flow id types: **H** happy step · **U** unhappy branch · **R** recovery.
 
-Coverage: **225 of 246** features are realized by a flow; the remaining **21** have no flow step (listed at the end).
+Coverage: **225 of 246** features realized by a flow; the rest have no flow step (listed at end).
 ---
-
 ## Feature id → Flow ids
-
 | Feature id | Realized by (flow ids) |
 |---|---|
 | `F-095` | `MF-A.H1` |
@@ -31,8 +29,8 @@ Coverage: **225 of 246** features are realized by a flow; the remaining **21** h
 | `F-124` | `PF-B.H8` |
 | `F-125` | `PF-B.H7`, `PF-B.U2`, `R-ELIG-REVIEW` |
 | `F-126` | `PF-B.H7` |
-| `F-130` | `PF-C.H1` |
-| `F-131` | `PF-C.H2`, `PF-C.U1`, `R-PAY-RETRY` |
+| `F-130` | `PF-C.H1`, `PF-D.U3`, `R-SUBSCRIBE-GATE` |
+| `F-131` | `PF-C.H2`, `PF-C.U1`, `R-PAY-RETRY`, `PF-D.U3`, `R-SUBSCRIBE-GATE` |
 | `F-132` | `PF-G.H9` |
 | `F-133` | `PF-C.H3`, `PF-C.U2`, `PF-C.U3`, `R-DUNNING`, `R-REACTIVATE` |
 | `F-139` | `PF-C.H4` |
@@ -236,7 +234,6 @@ Coverage: **225 of 246** features are realized by a flow; the remaining **21** h
 | `F-809` | `AF-A.H3` |
 
 ## Features with no flow step (accounted for)
-
 ### Removed features (not implemented)
 | Feature id | Status |
 |---|---|
@@ -258,8 +255,7 @@ Coverage: **225 of 246** features are realized by a flow; the remaining **21** h
 | `F-514` | Removed in v2.1 — excluded from scope. |
 
 ### Cross-cutting internationalization (no single step)
-
-Owned by the i18n layer (`pkg-i18n`), applied to **every** flow's UI and notifications.
+Owned by the i18n layer (`pkg-i18n`).
 | Feature id | Where it is handled |
 |---|---|
 | `F-090` | Multilanguage UI — message catalogs per surface (`fa-IR` default, `en` next). |
@@ -269,4 +265,4 @@ Owned by the i18n layer (`pkg-i18n`), applied to **every** flow's UI and notific
 | `F-094` | Localized notifications — SMS/push/email rendered in the recipient locale. |
 
 ---
-*Accounting: 225 mapped + 16 removed + 5 cross-cutting = 246 of 246. **All features accounted for.** Generated from `Medica_User_Flows.md`.*
+*Accounting: 225 mapped + 16 removed + 5 cross-cutting = 246 of 246. **All accounted for.***

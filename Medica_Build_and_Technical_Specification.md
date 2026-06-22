@@ -240,6 +240,7 @@ Security configuration S-001–S-018 is platform-level and has no step or UI.
 - actor: patient (self) · requires: `subscription:write:self`, `wallet:write:self`
 - api · `API-SUB-002` · POST /me/subscriptions · sub · create subscription
   - data · ← `package_id` · → `subscription{ id, status, renews_at }`
+- *Entry point: this step is normally reached **from a pending visit booking** (`STEP-3B-01`) — completing the purchase confirms that visit (`pending_payment → scheduled`). Also reachable from home for renewal/management.*
 - api · `API-PAY-001/002` · POST /payments/{checkout,callback} · pay · gateway session + verify
   - data · ← `amount_minor, ref_type, ref_id` · → `payment{ id, status, gateway_session }, redirect_url`
 - comp · `CMP-PAT-031` · CheckoutFlow · mfe-patient · gateway redirect + result
@@ -271,6 +272,7 @@ Security configuration S-001–S-018 is platform-level and has no step or UI.
 - api · `API-VISIT-002` · POST /me/visits · visit · book visit
   - data · ← `slot_id, type` · → `visit{ id, scheduled_at, type, channel, status }`
 - comp · `CMP-PAT-040` · VisitBooking · mfe-patient · slot picker
+- *Ordering: subscription/payment comes **after** booking. A patient with no active subscription books into `status = pending_payment`; confirming the booking **requires** the subscription purchase (Flow A, `STEP-3A-02`), which flips the visit to `scheduled`. So the first visit booking is the gate that drives the subscription sale (User Flows `PF-D.U3 → R-SUBSCRIBE-GATE`). Flow A is still authored before Flow B here, but at runtime book-then-pay is the order.*
 
 **STEP-3B-02 — Patient gets reminder** · serves F-152 · [int·Kavenegar/Pushe]
 - actor: system → patient · requires: n/a

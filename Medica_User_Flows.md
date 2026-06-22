@@ -52,7 +52,7 @@ ID scheme: `PF-A` flow · `PF-A.H3` happy step 3 · `PF-A.U2` unhappy branch 2 (
 - `PF-B.H7` Compute eligibility, show result · F-122, F-123, F-125, F-126 · may trigger: `PF-B.U2`, `PF-B.U3`
 - `PF-B.H8` Sign informed consent · F-124
 - `PF-B.H9` Receive confirmations · F-205
-- `PF-B.H10` Land on patient home, ready to subscribe · F-100
+- `PF-B.H10` Land on patient home, ready to book first visit · F-100
 
 **Unhappy**
 - `PF-B.U1` **Lab upload rejected** (at H4) → `R-INLINE-VALIDATE` · F-113
@@ -69,6 +69,8 @@ ID scheme: `PF-A` flow · `PF-A.H3` happy step 3 · `PF-A.U2` unhappy branch 2 (
 
 
 ## PF-C · Subscription & payment
+
+*Payment comes **after** the first visit booking: the initial purchase is the gate that confirms a pending visit (entered via `PF-D.U3` → `R-SUBSCRIBE-GATE`). Also reachable from home for renewal/management.*
 
 **Happy**
 - `PF-C.H1` View packages · F-130
@@ -109,7 +111,7 @@ ID scheme: `PF-A` flow · `PF-A.H3` happy step 3 · `PF-A.U2` unhappy branch 2 (
 ## PF-D · Online doctor visit (patient side)
 
 **Happy**
-- `PF-D.H1` Book a visit · F-150, F-151
+- `PF-D.H1` Book a visit — creates a **pending** booking; confirming requires an active subscription · F-150, F-151 · may trigger: `PF-D.U3`
 - `PF-D.H2` Get a reminder · F-152
 - `PF-D.H3` Join the phone visit · F-153 · may trigger: `PF-D.U1`
 - `PF-D.H4` View & download the prescription · F-155, F-159 · may trigger: `PF-D.U2`
@@ -118,6 +120,15 @@ ID scheme: `PF-A` flow · `PF-A.H3` happy step 3 · `PF-A.U2` unhappy branch 2 (
 **Unhappy**
 - `PF-D.U1` **Patient no-show** (at H3) → `R-RESCHEDULE` · F-153
 - `PF-D.U2` **Prescription not ready** (at H4) → `R-RXFIX` · F-330
+- `PF-D.U3` **Subscription required to confirm booking** (at H1) → `R-SUBSCRIBE-GATE` · F-130, F-131
+
+**Recoveries**
+
+### `R-SUBSCRIBE-GATE` — Subscribe to confirm first booking · F-130, F-131 · **used by:** PF-D.U3
+1. The pending visit prompts the required subscription — the visit stays locked until a subscription is active.
+2. Patient completes purchase & pay (`PF-C.H1` → `PF-C.H2`).
+3. On payment, the pending visit is confirmed and the subscription activates.
+- ⤴ visit confirmed.
 
 ## PF-E · Home nurse visit & tracking (patient side)
 
