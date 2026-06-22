@@ -86,6 +86,7 @@ Cross-cutting screens (`SCR-SHL-*`) — notifications, locale switch — overlay
 | `SCR-PAT-23` | NurseIdentityVerify | `CMP-PAT-051` | F-221 | `STEP-4B-02` | `API-PROV-010` | M4 |
 | `SCR-PAT-24` | MedReceiptConfirm | `CMP-PAT-052` | F-222 | `STEP-4B-03` | `API-FIELD-022` | M4 |
 | `SCR-PAT-25` | VisitTimeManager | `CMP-PAT-053` | F-171 | `STEP-4B-04` | `API-FIELD-021` | M4 |
+| `SCR-PAT-40` | WeeklyScheduleManager | `CMP-PAT-069` | F-181 | `STEP-4B-10` | `API-FIELD-024`, `API-FIELD-025` | M4 |
 | `SCR-PAT-26` | ServiceReceipt | `CMP-PAT-054` | F-174 | `STEP-4B-05` | `API-FIELD-022` | M4 |
 | `SCR-PAT-27` | MyInjections (list + weight chart) | `CMP-PAT-055` | F-175, F-179 | `STEP-4B-06` | `API-FIELD-023` | M4 |
 | `SCR-PAT-28` | SideEffectReporter | `CMP-PAT-056` | F-177, F-178 | `STEP-4B-08` | `API-PATIENT-030` | M4 |

@@ -431,9 +431,9 @@ Doctor scheduling F-340 `[manual→M6]`; refund F-147 `[manual→M4]`; F-301, F-
   - data · ← `med_received` · → `service_receipt{ med_received, confirmed_at }`
 - comp · `CMP-PAT-052` · MedReceiptConfirm · mfe-patient · confirm meds
 
-**STEP-4B-04 — Confirm / change time** · serves F-171
+**STEP-4B-04 — Confirm / change time (single session)** · serves F-171
 - actor: patient (self) · requires: `nurse_visit:write:self`
-- api · `API-FIELD-021` · POST /me/nurse-visits/{id}/reschedule · field · confirm/change time
+- api · `API-FIELD-021` · POST /me/nurse-visits/{id}/reschedule · field · confirm/change time of **one** visit (overrides its `scheduled_at`; the standing weekly slot in `STEP-4B-10` is unchanged)
   - data · ← `new_time` · → `nurse_visit{ scheduled_at, status }`
 - comp · `CMP-PAT-053` · VisitTimeManager · mfe-patient · confirm/change
 
@@ -467,6 +467,15 @@ Doctor scheduling F-340 `[manual→M6]`; refund F-147 `[manual→M4]`; F-301, F-
 - api · `API-FIELD-034` · GET /me/nurse-visits/{id}/track · field · live position + ETA
   - data · → `track{ geo, eta }`
 - comp · `CMP-PAT-057` · NurseTracker · mfe-patient · live map
+
+**STEP-4B-10 — Reserve / edit weekly injection time** · serves F-181
+- actor: patient (self) · requires: `nurse_visit:write:self`
+- api · `API-FIELD-024` · GET /me/nurse-visits/availability · field · open weekly slots (weekday + time window) honoring routing capacity
+  - data · → `slot[]{ weekday, window_start, window_end, capacity }`
+- api · `API-FIELD-025` · PUT /me/injection-schedule · field · set/edit the recurring weekly slot
+  - data · ← `weekday, window_start, window_end` · → `injection_schedule{ id, weekday, window_start, window_end, status }`
+- comp · `CMP-PAT-069` · WeeklyScheduleManager · mfe-patient · pick / edit weekly slot
+- *the patient reserves a **standing weekly** time; ops smart-routing (`STEP-5-08`) generates each `nurse_visit` into that window and assigns a nurse. **Editing** the weekly slot reschedules the whole future series ("overall"); a **single-session** change uses `STEP-4B-04` (F-171). If capacity can't honor a week, `RFLOW-07` / `RFLOW-08` apply.*
 
 ## Flow C — minimal admin ops · actor: **admin / ops_manager (any)**
 

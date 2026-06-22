@@ -83,6 +83,7 @@
 ### 5.7 Nurse Visit & Medication Management
 - **F-170** — View nurse visit schedule + see nurse profile + confirm medication receipt
 - **F-171** — Confirm/change nurse visit time
+- **F-181** — Reserve a **recurring weekly** injection-visit time (standing appointment); edit the weekly time later (reschedules the whole future series — "overall"), or reschedule a single session (`F-171`)
 - **F-172** — Live tracking of nurse location en route (Optime AI)
 - **F-174** — Digital confirmation of service receipt (signature/OTP)
 - **F-175** — My Injections — injection history (date, dose, vial)

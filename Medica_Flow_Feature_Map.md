@@ -1,8 +1,8 @@
 # Medica — Feature → Flow Map
 
-For each feature (`F-` id), the flow ids in `Medica_User_Flows.md` that realize it. Types: **H** happy · **U** unhappy · **R** recovery.
+For each feature, the flow ids that realize it (H/U/R).
 
-Coverage: **226 of 247** features realized by a flow; the rest have no flow step (listed at end).
+Coverage: **227 of 248** realized by a flow.
 ---
 ## Feature id → Flow ids
 | Feature id | Realized by (flow ids) |
@@ -59,6 +59,7 @@ Coverage: **226 of 247** features realized by a flow; the rest have no flow step
 | `F-177` | `PF-F.H1` |
 | `F-178` | `PF-F.H1`, `PF-F.U1`, `R-CLINICAL-ESC` |
 | `F-179` | `PF-E.H7` |
+| `F-181` | `PF-E.H9` |
 | `F-185` | `PF-G.H1` |
 | `F-186` | `PF-G.H1` |
 | `F-188` | `PF-G.H2` |
@@ -234,35 +235,35 @@ Coverage: **226 of 247** features realized by a flow; the rest have no flow step
 | `F-808` | `AF-A.H3` |
 | `F-809` | `AF-A.H3` |
 
-## Features with no flow step (accounted for)
-### Removed features
+## No-flow-step features
+### Removed
 | Feature id | Status |
 |---|---|
-| `F-104` | Removed — 2FA. |
-| `F-106` | Removed in v2.1. |
-| `F-160` | Removed in v2.1. |
-| `F-173` | Removed in v2.1. |
-| `F-180` | Removed in v2.1. |
-| `F-206` | Removed in v2.1. |
-| `F-320` | Removed in v2.1. |
-| `F-325` | Removed in v2.1. |
-| `F-326` | Removed in v2.1. |
-| `F-332` | Removed in v2.1. |
-| `F-419` | Removed in v2.1. |
-| `F-435` | Removed in v2.1. |
-| `F-436` | Removed in v2.1. |
-| `F-438` | Removed in v2.1. |
-| `F-439` | Removed in v2.1. |
-| `F-514` | Removed in v2.1. |
+| `F-104` | Removed. |
+| `F-106` | Removed. |
+| `F-160` | Removed. |
+| `F-173` | Removed. |
+| `F-180` | Removed. |
+| `F-206` | Removed. |
+| `F-320` | Removed. |
+| `F-325` | Removed. |
+| `F-326` | Removed. |
+| `F-332` | Removed. |
+| `F-419` | Removed. |
+| `F-435` | Removed. |
+| `F-436` | Removed. |
+| `F-438` | Removed. |
+| `F-439` | Removed. |
+| `F-514` | Removed. |
 
 ### Cross-cutting i18n
-| Feature id | Where handled |
+| Feature id | Where |
 |---|---|
-| `F-090` | Multilanguage UI — message catalogs per surface (`fa-IR` default, `en` next). |
-| `F-091` | In-app language switcher — surfaced in app/settings; persists `identity.preferred_locale`. |
-| `F-092` | RTL/LTR layout by locale — no per-screen redesign. |
-| `F-093` | Locale-aware formatting — Jalali/Gregorian dates, Persian/Latin numerals, currency. |
-| `F-094` | Localized notifications — SMS/push/email rendered in the recipient locale. |
+| `F-090` | Multilanguage UI. |
+| `F-091` | In-app language switcher; persists `identity.preferred_locale`. |
+| `F-092` | RTL/LTR by locale. |
+| `F-093` | Locale-aware formatting. |
+| `F-094` | Localized notifications. |
 
 ---
-*Accounting: 226 mapped + 16 removed + 5 cross-cutting = 247 of 247. **All accounted for.***
+*227 mapped + 16 removed + 5 i18n = 248/248. **All accounted for.***

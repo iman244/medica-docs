@@ -73,6 +73,7 @@ Notes: these are **frontend** health checks (the Next.js process); each FastAPI 
 | `SCR-PAT-23` | `/nurse-visits/[id]/verify` | dynamic | NurseIdentityVerify (`CMP-PAT-051`) |
 | `SCR-PAT-24` | `/nurse-visits/[id]/confirm-receipt` | dynamic | MedReceiptConfirm (`CMP-PAT-052`) |
 | `SCR-PAT-25` | `/nurse-visits/[id]/reschedule` | dynamic | VisitTimeManager (`CMP-PAT-053`) |
+| `SCR-PAT-40` | `/nurse-visits/schedule` | static | WeeklyScheduleManager (`CMP-PAT-069`) |
 | `SCR-PAT-26` | `/nurse-visits/[id]/receipt` | dynamic | ServiceReceipt (`CMP-PAT-054`) |
 | `SCR-PAT-27` | `/injections` | index | MyInjections (`CMP-PAT-055`) — list + weight chart |
 | `SCR-PAT-28` | `/side-effects/report` | static | SideEffectReporter (`CMP-PAT-056`) |

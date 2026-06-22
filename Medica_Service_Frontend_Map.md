@@ -1,6 +1,6 @@
 # Medica — Service & Microfrontend Map
 
-Part A = services → endpoints → flow steps. Part B = MFEs → routes → flow steps. Tags **H**/**U**/**R**.
+Part A services → endpoints → flow steps. Part B MFEs → routes → flow steps.
 ---
 ## Part A — Backend microservices
 
@@ -85,6 +85,8 @@ Part A = services → endpoints → flow steps. Part B = MFEs → routes → flo
 | `API-FIELD-021` | `POST /me/nurse-visits/{id}/reschedule` | `PF-E.H3`, `PF-E.U1` |
 | `API-FIELD-022` | `POST /me/nurse-visits/{id}/confirm-receipt` | `PF-E.H4`, `PF-E.H5` |
 | `API-FIELD-023` | `GET /me/injections` | `PF-E.H7` |
+| `API-FIELD-024` | `GET /me/nurse-visits/availability` | `PF-E.H9` |
+| `API-FIELD-025` | `PUT /me/injection-schedule` | `PF-E.H9` |
 | `API-FIELD-030` | `POST /logistics/geocode` | `OP-B.H1`, `OP-B.U1`, `R-GEOCODE-MANUAL` |
 | `API-FIELD-033` | `POST /logistics/assign` | `OP-B.H3` |
 | `API-FIELD-034` | `GET /me/nurse-visits/{id}/track` | `NF-C.H1`, `PF-E.H6`, `PF-E.U2`, `R-TRACK-FALLBACK` |
@@ -200,6 +202,7 @@ Part A = services → endpoints → flow steps. Part B = MFEs → routes → flo
 | `/nurse-visits/[id]/verify` | CMP-PAT-051 | `PF-E.H2` |
 | `/nurse-visits/[id]/confirm-receipt` | CMP-PAT-052 | `PF-E.H4` |
 | `/nurse-visits/[id]/reschedule` | CMP-PAT-053 | `PF-E.H3`, `PF-E.U1` |
+| `/nurse-visits/schedule` | CMP-PAT-069 | `PF-E.H9` |
 | `/nurse-visits/[id]/receipt` | CMP-PAT-054 | `PF-E.H5` |
 | `/injections` | CMP-PAT-055 | `PF-E.H7` |
 | `/side-effects/report` | CMP-PAT-056 | `PF-F.H1`, `PF-F.U1`, `R-CLINICAL-ESC` |

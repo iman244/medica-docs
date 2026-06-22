@@ -135,12 +135,13 @@ ID scheme: `PF-A` flow · `PF-A.H3` happy step 3 · `PF-A.U2` unhappy branch 2 (
 **Happy**
 - `PF-E.H1` See schedule + nurse profile · F-170, F-220 · **M4**
 - `PF-E.H2` Verify nurse identity on arrival · F-221 · **M5**
-- `PF-E.H3` Confirm or change the time · F-171 · may trigger: `PF-E.U1` · **M5**
+- `PF-E.H3` Confirm or change the time (single session) · F-171 · may trigger: `PF-E.U1` · **M5**
 - `PF-E.H4` Confirm medication received · F-222 · **M5**
 - `PF-E.H5` Confirm service received · F-174 · **M5**
 - `PF-E.H6` Track the nurse live · F-172 · may trigger: `PF-E.U2` · **M5**
 - `PF-E.H7` See My Injections — history + weight-across-injections chart · F-175, F-179 · **M5**
 - `PF-E.H8` Next-injection reminder · F-176 · **M5**
+- `PF-E.H9` Reserve / edit weekly injection time — standing appointment; editing reschedules the whole future series, a single session uses H3 · F-181 · **M5**
 
 **Unhappy**
 - `PF-E.U1` **Patient not home / unreachable** (at H3) → `R-RESCHEDULE` · F-171 · **M5**
@@ -173,8 +174,8 @@ ID scheme: `PF-A` flow · `PF-A.H3` happy step 3 · `PF-A.U2` unhappy branch 2 (
 - `PF-G.H5` Foodnoise tracking · F-223, F-224 · **M6**
 - `PF-G.H6` Multiple addresses + weight history · F-114, F-116, F-117 · **M6**
 - `PF-G.H7` Support chat + FAQ + emergency line · F-207, F-209, F-210 · **M6**
-- `PF-G.H8` Visit chat + survey + history PDF · F-154, F-156, F-158 · **M6**
-- `PF-G.H9` Pricing perks · F-132, F-144 · **M6**
+- `PF-G.H8` Visit chat + survey + history PDF · F-154, F-156, F-158 · **M7**
+- `PF-G.H9` Pricing perks · F-132, F-144 · **M7**
 
 **Unhappy**
 - `PF-G.U1` **Nothing to show yet** (any step) → `R-EMPTY-STATE` · F: — · **M7**
@@ -340,8 +341,8 @@ ID scheme: `PF-A` flow · `PF-A.H3` happy step 3 · `PF-A.U2` unhappy branch 2 (
 ## PH-A · Inventory & dispense
 
 **Happy**
-- `PH-A.H1` Pharmacy login (OTP) · F-501 · **M5**
-- `PH-A.H2` Inventory dashboard · F-502 · may trigger: `PH-A.U1` · **M5**
+- `PH-A.H1` Pharmacy login (OTP) · F-501 · **M6**
+- `PH-A.H2` Inventory dashboard · F-502 · may trigger: `PH-A.U1` · **M6**
 - `PH-A.H3` Record supplier receipt · F-503 · **M6**
 - `PH-A.H4` Monitor cold chain · F-505 · may trigger: `PH-A.U2` · **M6**
 - `PH-A.H5` Dispense to nurse · F-504 · may trigger: `PH-A.U3`, `PH-A.U4` · **M6**

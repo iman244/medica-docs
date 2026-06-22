@@ -168,8 +168,12 @@ Owns online visits, clinical notes, and prescriptions.
 
 Owns nurse visits, injections, field cold-chain, routing, nurse inventory, and safety.
 
-**nurse_visit** · serves F-170, F-171, F-415, F-416, F-418, F-430, F-442 · STEP-4A-03..10, 4B-01
-- fields: `patient_id` (identity_id), `nurse_id` (identity_id), `prescription_id` (→ visit, by id), `scheduled_at`, `address_snapshot` (jsonb, copied from patient.address), `checkin_geo`, `checkin_at`, `status` `enum (states in lifecycle spec)`
+**nurse_visit** · serves F-170, F-171, F-181, F-415, F-416, F-418, F-430, F-442 · STEP-4A-03..10, 4B-01
+- fields: `patient_id` (identity_id), `nurse_id` (identity_id), `prescription_id` (→ visit, by id), `schedule_id` (→ injection_schedule, nullable — the standing weekly slot this visit was generated from), `scheduled_at`, `address_snapshot` (jsonb, copied from patient.address), `checkin_geo`, `checkin_at`, `status` `enum (states in lifecycle spec)`
+
+**injection_schedule** · serves F-181 · STEP-4B-10
+- fields: `patient_id` (identity_id), `weekday` enum(sat/sun/mon/tue/wed/thu/fri), `window_start` (time), `window_end` (time), `status` enum(active/paused), `created_at`, `updated_at`
+- *the patient's standing **weekly** injection slot. Smart-routing generates each `nurse_visit` into this window (`STEP-5-08`) and assigns a nurse; **editing** the slot reschedules the whole future series, while a **single-session** change (`STEP-4B-04`, F-171) overrides one `nurse_visit.scheduled_at` without touching the schedule.*
 
 **injection_record** · serves F-437, F-175 · STEP-4A-08
 - fields: `nurse_visit_id` (→ nurse_visit), `patient_id`, `nurse_id`, `vial_id` (→ pharm.vial, by id), `dose`, `site` (rotation code), `administered_at`
