@@ -96,7 +96,7 @@
     <bpmn:endEvent id="e_pause" name="Onboarding paused">
       <bpmn:incoming>f10</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:task id="r_review" name="Paid doctor review (R-ELIG-REVIEW)">
+    <bpmn:task id="r_review" name="Show 'support will call'; CS unlocks doctor review (R-ELIG-REVIEW)">
       <bpmn:incoming>f15</bpmn:incoming>
       <bpmn:outgoing>f16</bpmn:outgoing>
       <bpmn:outgoing>f17</bpmn:outgoing>

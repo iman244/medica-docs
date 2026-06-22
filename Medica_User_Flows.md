@@ -61,9 +61,9 @@ ID scheme: `PF-A` flow · `PF-A.H3` happy step 3 · `PF-A.U2` unhappy branch 2 (
 
 **Recoveries**
 
-### `R-ELIG-REVIEW` — Paid doctor eligibility review · F-123, F-125 · **used by:** PF-B.U2, PF-B.U3
-1. Result screen offers "talk to a doctor."
-2. Patient books a review visit, paying for it if a paid review is offered.
+### `R-ELIG-REVIEW` — Doctor eligibility review (support-led) · F-123, F-125 · **used by:** PF-B.U2, PF-B.U3
+1. Result screen shows a **"our support team will call you"** state — no patient-facing book/pay action. The pending status persists: on every re-login the patient sees the same message until it's resolved.
+2. CS / concierge contacts the patient and **unlocks** the doctor-review booking + payment when appropriate (booking/payment still exist but stay hidden from the patient until CS makes contact).
 3. Doctor reviews the record and decides eligible or not (may override).
 - ⤴ approved → consent · ⤓ otherwise → not enrolled (respectful close).
 

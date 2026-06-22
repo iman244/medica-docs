@@ -194,6 +194,7 @@ Security configuration S-001–S-018 is platform-level and has no step or UI.
 - api · `API-PATIENT-021` · POST /me/eligibility/answers · patient · rule engine + persist
   - data · ← `answers` · → `eligibility_assessment{ result, recommendation, assessed_at }`  *(`result` is a **categorical** outcome from the clinical ruleset — `eligible/borderline/ineligible`, `[clinical]`; there is **no numeric score**)*
 - comp · `CMP-PAT-021` · EligibilityResult · mfe-patient · result + recommendation
+- *`eligible` → continue to consent. `borderline`/`ineligible` → sets **`eligibility_assessment.review_status = review_pending`** and the screen shows a **"our support team will call you"** message — **no patient-facing book/pay action**; on every re-login the patient lands back on this pending state until CS moves it to `in_review`/`resolved`. CS/concierge unlocks the doctor-review booking + payment off-app (RFLOW-18). The `review_status` enum is added to `eligibility_assessment` in the data model.*
 
 **STEP-2-08 — Sign informed consent** · serves F-124
 - actor: patient (self) · requires: `eligibility:write:self`

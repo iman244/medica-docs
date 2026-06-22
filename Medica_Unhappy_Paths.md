@@ -63,14 +63,14 @@ UP-ID — name
 
 **UP-PAT-05 — Ineligible result** · serves F-123 · `[clinical]`
 - trigger: rule engine returns `ineligible` at STEP-2-07 · who: patient · pattern: full-screen state
-- shows: a respectful explanation, no medical jargon · copy: **the most emotionally loaded screen in the product** — kind, clear, non-final-sounding, offers alternatives · recovery: talk to a doctor (paid review / referral), read why, contact support; never a hard dead-end · handling: user-visible
-- `[clinical]`: the reasons shown and whether a paid override-review is offered are clinical/business calls.
-- resolver: doctor (via ops/CS) · RFLOW-18 (ineligible → paid review)
+- shows: a respectful explanation, no medical jargon, ending in a **"our support team will call you"** state (no in-app book/pay action) · copy: **the most emotionally loaded screen in the product** — kind, clear, non-final-sounding · recovery: passive — support reaches out; the pending state persists and re-shows on every login until resolved; never a hard dead-end · handling: user-visible
+- `[clinical]`: the reasons shown and whether the review is ultimately paid are clinical/business calls (arranged by CS on the call).
+- resolver: doctor (via ops/CS) · RFLOW-18 (support-led review; booking/payment unlocked by CS)
 
 **UP-PAT-06 — Borderline → needs doctor review** · serves F-125 · `[clinical]`
 - trigger: `borderline` at STEP-2-07 · who: patient · pattern: full-screen state
-- shows: "a doctor needs to review this first" · copy: positive, not a rejection · recovery: book/await review · handling: user-visible
-- resolver: doctor (via ops/CS) · RFLOW-18 (borderline → review)
+- shows: "a doctor needs to review this first — **our support team will call you**" (no in-app book/pay) · copy: positive, not a rejection · recovery: passive — await support callback; the pending state persists and re-shows on every login until CS unlocks the review · handling: user-visible
+- resolver: doctor (via ops/CS) · RFLOW-18 (support-led review; booking/payment unlocked by CS)
 
 **UP-PAT-07 — Payment failed / gateway unreachable** · serves F-131 (payment→failed ⚠)
 - trigger: gateway callback fail or session expiry at STEP-3A-02 · who: patient · pattern: full-screen state

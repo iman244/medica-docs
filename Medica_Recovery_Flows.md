@@ -262,9 +262,9 @@ These are the only recoveries that get dedicated software for the pilot. Both la
 
 #### RFLOW-18 — Ineligible / borderline → paid doctor review · resolves UP-PAT-05 / UP-PAT-06 · `[manual→M3]` · `[clinical]`
 - owner: doctor (via ops / CS) · trigger: eligibility returns `ineligible` or `borderline`.
-- steps: the result screen offers "talk to a doctor" (`API-PATIENT-021`, `CMP-PAT-021 EligibilityResult`); the patient books a review visit (`API-VISIT-002`, `CMP-PAT-040 VisitBooking`) and pays for it if a paid review is offered (`API-PAY-001`); the doctor reviews the EMR (`API-PATIENT-010`, `CMP-DOC-002`) and may proceed or override. Before payment exists (M2) this is run concierge-style by hand.
+- steps: the result screen shows a **"our support team will call you"** pending state (`API-PATIENT-021`, `CMP-PAT-021 EligibilityResult`) — **no patient-facing booking/payment**; the pending status is persisted on the assessment and re-shown on every login until resolved. CS / concierge contacts the patient and, when appropriate, **unlocks** the review booking (`API-VISIT-002`, `CMP-PAT-040 VisitBooking`) + payment (`API-PAY-001`) — these remain hidden from the patient until CS contact. The doctor then reviews the EMR (`API-PATIENT-010`, `CMP-DOC-002`) and may proceed or override.
 - closes: an eligible path opened by the doctor, or a respectful, non-dead-end close.
-- decision needed: which reasons are shown and whether a paid override-review is offered, plus its price (UP open-decision #3) `[clinical]`.
+- decision needed: which reasons are shown, and whether the review is ultimately paid, plus its price — arranged by CS on the call (UP open-decision #3) `[clinical]`.
 
 #### RFLOW-19 — External prescription rejected → re-issue + re-link · resolves UP-DOC-01 (prescription → rejected ⚠) · `[reuse]` · `[int·RxProvider]`
 - owner: doctor · trigger: the external e-prescription provider returns a rejected/invalid status.

@@ -77,8 +77,9 @@ Owns the patient profile, EMR, eligibility, and engagement data. Keyed by `ident
 - fields: `patient_id`, `label`, `line` (text), `geo_lat`, `geo_lng` (nullable; set by geocode), `is_default` (bool)
 
 **eligibility_assessment** · serves F-121, F-122, F-123, F-125, F-126 · STEP-2-06, 2-07
-- fields: `patient_id`, `answers` (jsonb), `result` enum(eligible/borderline/ineligible), `recommendation`, `assessed_at`
-- *eligibility is a **categorical determination** from the clinical ruleset (`[clinical]`), **not a numeric score** — the outcome is `eligible/borderline/ineligible` (borderline → doctor review, RFLOW-18).*
+- fields: `patient_id`, `answers` (jsonb), `result` enum(eligible/borderline/ineligible), `recommendation`, `review_status` enum(none/review_pending/in_review/resolved), `assessed_at`
+- *eligibility is a **categorical determination** from the clinical ruleset (`[clinical]`), **not a numeric score** — the outcome is `eligible/borderline/ineligible` (borderline / ineligible → doctor review, RFLOW-18).*
+- *`borderline`/`ineligible` set `review_status = review_pending`: the result screen shows a **"support will call you"** state with no in-app book/pay, and the patient lands back on it on every re-login until CS moves it to `in_review`/`resolved`. CS unlocks the review booking + payment off-app.*
 - *the public landing eligibility check (`STEP-2-10`, F-097) is anonymous and **non-persisting** — it computes a non-binding indicator and stores no row here and no PHI; the authoritative assessment is created only after signup.*
 
 **consent** · serves F-124 · STEP-2-08 · S-012

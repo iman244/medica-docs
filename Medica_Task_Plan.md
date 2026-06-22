@@ -180,8 +180,8 @@ Happy-step subtasks are grouped by **service** (backend microservice) and **app*
 ### `PF-B.U3` Ineligible — **1 pt**
 *unhappy · at PF-B.H7 · resolved by `R-ELIG-REVIEW`*
 
-### `R-ELIG-REVIEW` Paid doctor eligibility review — **3 pts**
-*recovery (recovery flow, clinical)*
+### `R-ELIG-REVIEW` Doctor eligibility review (support-led) — **3 pts**
+*recovery (recovery flow, clinical) · "support will call" pending state on EligibilityResult + persistent `review_pending` flag; CS unlocks booking/payment off-app*
 
 ## PF-C · Subscription & payment — 31 pts
 
