@@ -1,9 +1,8 @@
 # Medica — Feature → Flow Map
 
-For each feature (`F-` id from `Medica_p0_features_en.md`), the flow ids in `Medica_User_Flows.md` that realize it. The forward direction (flow → feature) already lives in the User Flows doc, so it is not duplicated here. Flow id types: **H** happy step · **U** unhappy branch · **R** shared recovery.
+For each feature (`F-` id from `Medica_p0_features_en.md`), the flow ids in `Medica_User_Flows.md` that realize it. The forward direction (flow → feature) lives in the User Flows doc. Flow id types: **H** happy step · **U** unhappy branch · **R** shared/unique recovery.
 
-Coverage: **224 of 245** features are realized by a flow; the remaining **21** have no flow step and are listed at the end with the reason.
-
+Coverage: **224 of 245** features are realized by a flow; the remaining **21** have no flow step (listed at the end).
 ---
 
 ## Feature id → Flow ids
@@ -15,7 +14,7 @@ Coverage: **224 of 245** features are realized by a flow; the remaining **21** h
 | `F-097` | `MF-A.H3`, `MF-A.U2`, `MF-A.U3`, `R-GUIDANCE-CTA`, `R-PREVIEW-RETRY` |
 | `F-100` | `PF-B.H10` |
 | `F-101` | `PF-A.H1`, `PF-A.H2`, `PF-A.U1`, `R-RESEND-OTP` |
-| `F-102` | `PF-A.H3`, `PF-A.U2`, `PF-A.U3`, `DF-B.H1`, `R-COOLDOWN` |
+| `F-102` | `PF-A.H3`, `PF-A.U2`, `PF-A.U3`, `R-COOLDOWN`, `DF-B.H1` |
 | `F-103` | `PF-A.H4` |
 | `F-105` | `PF-A.H5`, `PF-A.U4`, `R-KYC-REVIEW` |
 | `F-110` | `PF-B.H1` |
@@ -40,9 +39,9 @@ Coverage: **224 of 245** features are realized by a flow; the remaining **21** h
 | `F-141` | `PF-C.H5` |
 | `F-142` | `PF-C.H5` |
 | `F-143` | `PF-C.H5` |
-| `F-144` | `PF-C.U4`, `PF-G.H9`, `R-REFUND` |
+| `F-144` | `PF-C.U4`, `R-REFUND`, `PF-G.H9` |
 | `F-146` | `PF-C.H5` |
-| `F-147` | `PF-C.U4`, `OP-D.H1`, `R-REFUND` |
+| `F-147` | `PF-C.U4`, `R-REFUND`, `OP-D.H1` |
 | `F-150` | `PF-D.H1` |
 | `F-151` | `PF-D.H1` |
 | `F-152` | `PF-D.H2` |
@@ -131,7 +130,7 @@ Coverage: **224 of 245** features are realized by a flow; the remaining **21** h
 | `F-440` | `NF-C.H5` |
 | `F-441` | `NF-A.H9`, `NF-A.U5`, `R-OTP-RECEIPT` |
 | `F-442` | `NF-A.H10`, `NF-A.U6`, `R-OFFLINE-CAPTURE` |
-| `F-443` | `NF-B.H1`, `NF-B.H3`, `CS-A.H4`, `R-SAFETY-ESC` |
+| `F-443` | `NF-B.H1`, `NF-B.H3`, `R-SAFETY-ESC`, `CS-A.H4` |
 | `F-450` | `NF-C.H2` |
 | `F-451` | `NF-C.H2` |
 | `F-452` | `NF-C.H2` |
@@ -158,9 +157,9 @@ Coverage: **224 of 245** features are realized by a flow; the remaining **21** h
 | `F-501` | `PH-A.H1` |
 | `F-502` | `PH-A.H2` |
 | `F-503` | `PH-A.H3` |
-| `F-504` | `PH-A.H5`, `PH-A.U3`, `PH-A.U4`, `R-REPLACE`, `R-STOCKOUT`, `R-MANUAL-ENTRY` |
-| `F-505` | `PH-A.H4`, `PH-A.U2`, `PH-B.H1`, `R-HUB-QUARANTINE` |
-| `F-506` | `PH-A.H6`, `PH-A.U5`, `R-REPLACE`, `R-HUB-QUARANTINE`, `R-EXPIRE-QUARANTINE` |
+| `F-504` | `PH-A.H5`, `PH-A.U3`, `PH-A.U4`, `R-MANUAL-ENTRY`, `R-REPLACE`, `R-STOCKOUT` |
+| `F-505` | `PH-A.H4`, `PH-A.U2`, `R-HUB-QUARANTINE`, `PH-B.H1` |
+| `F-506` | `PH-A.H6`, `PH-A.U5`, `R-HUB-QUARANTINE`, `R-EXPIRE-QUARANTINE`, `R-REPLACE` |
 | `F-507` | `PH-A.H8` |
 | `F-508` | `PH-A.H8` |
 | `F-512` | `PH-A.H8` |
@@ -179,7 +178,7 @@ Coverage: **224 of 245** features are realized by a flow; the remaining **21** h
 | `F-615` | `OP-B.H4` |
 | `F-616` | `OP-B.H4` |
 | `F-617` | `OP-B.H4`, `OP-B.U2`, `R-INCIDENT-TRIAGE` |
-| `F-618` | `PH-B.H1`, `PH-B.H2`, `PH-B.U1`, `OP-B.H4`, `OP-B.U2`, `R-RECALL`, `R-INCIDENT-TRIAGE` |
+| `F-618` | `PH-B.H1`, `PH-B.H2`, `PH-B.U1`, `R-RECALL`, `OP-B.H4`, `OP-B.U2`, `R-INCIDENT-TRIAGE` |
 | `F-619` | `OP-B.H5`, `R-RESCHEDULE` |
 | `F-620` | `OP-C.H1` |
 | `F-625` | `OP-D.H3` |
@@ -238,7 +237,6 @@ Coverage: **224 of 245** features are realized by a flow; the remaining **21** h
 ## Features with no flow step (accounted for)
 
 ### Removed features (not implemented)
-
 | Feature id | Status |
 |---|---|
 | `F-104` | Removed — 2FA, per product decision. |
@@ -261,7 +259,6 @@ Coverage: **224 of 245** features are realized by a flow; the remaining **21** h
 ### Cross-cutting internationalization (no single step)
 
 Owned by the i18n layer (`pkg-i18n`), applied to **every** flow's UI and notifications.
-
 | Feature id | Where it is handled |
 |---|---|
 | `F-090` | Multilanguage UI — message catalogs per surface (`fa-IR` default, `en` next). |
@@ -271,5 +268,4 @@ Owned by the i18n layer (`pkg-i18n`), applied to **every** flow's UI and notific
 | `F-094` | Localized notifications — SMS/push/email rendered in the recipient locale. |
 
 ---
-
 *Accounting: 224 mapped + 16 removed + 5 cross-cutting = 245 of 245. **All features accounted for.** Generated from `Medica_User_Flows.md`.*
