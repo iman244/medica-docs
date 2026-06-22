@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Defs_1" targetNamespace="http://medica/flows">
+  <bpmn:collaboration id="Collab_1">
+    <bpmn:participant id="Pool_fulfill" name="Home-Visit Fulfillment (J-FULFILL)" processRef="Proc_fulfill" />
+  </bpmn:collaboration>
+  <bpmn:process id="Proc_fulfill" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_1">
+      <bpmn:lane id="Lane_Ops" name="Ops">
+        <bpmn:flowNodeRef>s0</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_geo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_geo</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_route</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>r_geo</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Pharmacy" name="Pharmacy">
+        <bpmn:flowNodeRef>t_disp</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_disp</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>r_stock</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>e_resched1</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Nurse" name="Nurse">
+        <bpmn:flowNodeRef>t_nav</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_route</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_gps</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_gps</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_cc</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_cc</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_pre</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_vial</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_vial</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_sign</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_sign</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_submit</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_online</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>e_done</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>r_route</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>r_gps</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>r_cc</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>e_block</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>r_vial</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>r_sign</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>r_off</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_Patient" name="Patient">
+        <bpmn:flowNodeRef>t_verify</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_home</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_admin</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>r_home</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>e_resched2</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="s0" name="Dose due / Rx active">
+      <bpmn:outgoing>f_0</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="t_geo" name="Geocode address (OP-B.H1)">
+      <bpmn:incoming>f_0</bpmn:incoming>
+      <bpmn:outgoing>f_1</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="g_geo" name="Geocoded?">
+      <bpmn:incoming>f_1</bpmn:incoming>
+      <bpmn:outgoing>f_2</bpmn:outgoing>
+      <bpmn:outgoing>f_22</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="t_route" name="Optimize route (OP-B.H2)">
+      <bpmn:incoming>f_2</bpmn:incoming>
+      <bpmn:incoming>f_23</bpmn:incoming>
+      <bpmn:outgoing>f_3</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t_disp" name="Dispense to nurse (PH-A.H5)">
+      <bpmn:incoming>f_3</bpmn:incoming>
+      <bpmn:outgoing>f_4</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="g_disp" name="In stock &amp; cold-chain OK?">
+      <bpmn:incoming>f_4</bpmn:incoming>
+      <bpmn:outgoing>f_5</bpmn:outgoing>
+      <bpmn:outgoing>f_24</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="t_nav" name="Travel &amp; navigate (NF-A.H3)">
+      <bpmn:incoming>f_5</bpmn:incoming>
+      <bpmn:outgoing>f_6</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="g_route" name="Route available?">
+      <bpmn:incoming>f_6</bpmn:incoming>
+      <bpmn:outgoing>f_7</bpmn:outgoing>
+      <bpmn:outgoing>f_26</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="t_verify" name="Verify nurse, confirm time (PF-E.H2/H3)">
+      <bpmn:incoming>f_7</bpmn:incoming>
+      <bpmn:incoming>f_27</bpmn:incoming>
+      <bpmn:outgoing>f_8</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="g_home" name="Patient home?">
+      <bpmn:incoming>f_8</bpmn:incoming>
+      <bpmn:outgoing>f_9</bpmn:outgoing>
+      <bpmn:outgoing>f_28</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="t_gps" name="GPS check-in (NF-A.H4)">
+      <bpmn:incoming>f_9</bpmn:incoming>
+      <bpmn:outgoing>f_10</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="g_gps" name="GPS OK?">
+      <bpmn:incoming>f_10</bpmn:incoming>
+      <bpmn:outgoing>f_11</bpmn:outgoing>
+      <bpmn:outgoing>f_30</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="t_cc" name="Record cold-chain temp (NF-A.H6)">
+      <bpmn:incoming>f_11</bpmn:incoming>
+      <bpmn:incoming>f_31</bpmn:incoming>
+      <bpmn:outgoing>f_12</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="g_cc" name="Cold-chain OK?">
+      <bpmn:incoming>f_12</bpmn:incoming>
+      <bpmn:outgoing>f_13</bpmn:outgoing>
+      <bpmn:outgoing>f_32</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="t_pre" name="Pre-injection assessment (NF-A.H7)">
+      <bpmn:incoming>f_13</bpmn:incoming>
+      <bpmn:outgoing>f_14</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t_vial" name="Scan vial &amp; site (NF-A.H8)">
+      <bpmn:incoming>f_14</bpmn:incoming>
+      <bpmn:outgoing>f_15</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="g_vial" name="Vial match?">
+      <bpmn:incoming>f_15</bpmn:incoming>
+      <bpmn:outgoing>f_16</bpmn:outgoing>
+      <bpmn:outgoing>f_34</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="t_admin" name="Administer; patient confirms (PF-E.H4/H5)">
+      <bpmn:incoming>f_16</bpmn:incoming>
+      <bpmn:incoming>f_35</bpmn:incoming>
+      <bpmn:outgoing>f_17</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t_sign" name="Patient signs (NF-A.H9)">
+      <bpmn:incoming>f_17</bpmn:incoming>
+      <bpmn:outgoing>f_18</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="g_sign" name="Signed?">
+      <bpmn:incoming>f_18</bpmn:incoming>
+      <bpmn:outgoing>f_19</bpmn:outgoing>
+      <bpmn:outgoing>f_36</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="t_submit" name="Submit visit (NF-A.H10)">
+      <bpmn:incoming>f_19</bpmn:incoming>
+      <bpmn:incoming>f_37</bpmn:incoming>
+      <bpmn:outgoing>f_20</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="g_online" name="Online?">
+      <bpmn:incoming>f_20</bpmn:incoming>
+      <bpmn:outgoing>f_21</bpmn:outgoing>
+      <bpmn:outgoing>f_38</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="e_done" name="Visit fulfilled">
+      <bpmn:incoming>f_21</bpmn:incoming>
+      <bpmn:incoming>f_39</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="r_geo" name="Manual map-pin (R-GEOCODE-MANUAL)">
+      <bpmn:incoming>f_22</bpmn:incoming>
+      <bpmn:outgoing>f_23</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="r_stock" name="Stock-out / hub breach -&gt; R-STOCKOUT / R-HUB-QUARANTINE">
+      <bpmn:incoming>f_24</bpmn:incoming>
+      <bpmn:outgoing>f_25</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="e_resched1" name="Re-dispatch / reschedule">
+      <bpmn:incoming>f_25</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="r_route" name="Manual route / last-known (R-TRACK-FALLBACK)">
+      <bpmn:incoming>f_26</bpmn:incoming>
+      <bpmn:outgoing>f_27</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="r_home" name="Abort &amp; reschedule (R-RESCHEDULE)">
+      <bpmn:incoming>f_28</bpmn:incoming>
+      <bpmn:outgoing>f_29</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="e_resched2" name="Visit rescheduled">
+      <bpmn:incoming>f_29</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="r_gps" name="Supervisor override + audit (R-GPS-OVERRIDE)">
+      <bpmn:incoming>f_30</bpmn:incoming>
+      <bpmn:outgoing>f_31</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="r_cc" name="Block, abort, replacement order (R-REPLACE)">
+      <bpmn:incoming>f_32</bpmn:incoming>
+      <bpmn:outgoing>f_33</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="e_block" name="Visit blocked; replacement dispatched">
+      <bpmn:incoming>f_33</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="r_vial" name="Rescan; else replacement (R-VIAL-RESCAN -&gt; R-REPLACE)">
+      <bpmn:incoming>f_34</bpmn:incoming>
+      <bpmn:outgoing>f_35</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="r_sign" name="OTP receipt fallback (R-OTP-RECEIPT)">
+      <bpmn:incoming>f_36</bpmn:incoming>
+      <bpmn:outgoing>f_37</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="r_off" name="Capture offline; sync later (R-OFFLINE-CAPTURE)">
+      <bpmn:incoming>f_38</bpmn:incoming>
+      <bpmn:outgoing>f_39</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="f_0" sourceRef="s0" targetRef="t_geo" />
+    <bpmn:sequenceFlow id="f_1" sourceRef="t_geo" targetRef="g_geo" />
+    <bpmn:sequenceFlow id="f_2" name="yes" sourceRef="g_geo" targetRef="t_route" />
+    <bpmn:sequenceFlow id="f_3" sourceRef="t_route" targetRef="t_disp" />
+    <bpmn:sequenceFlow id="f_4" sourceRef="t_disp" targetRef="g_disp" />
+    <bpmn:sequenceFlow id="f_5" name="yes" sourceRef="g_disp" targetRef="t_nav" />
+    <bpmn:sequenceFlow id="f_6" sourceRef="t_nav" targetRef="g_route" />
+    <bpmn:sequenceFlow id="f_7" name="yes" sourceRef="g_route" targetRef="t_verify" />
+    <bpmn:sequenceFlow id="f_8" sourceRef="t_verify" targetRef="g_home" />
+    <bpmn:sequenceFlow id="f_9" name="yes" sourceRef="g_home" targetRef="t_gps" />
+    <bpmn:sequenceFlow id="f_10" sourceRef="t_gps" targetRef="g_gps" />
+    <bpmn:sequenceFlow id="f_11" name="yes" sourceRef="g_gps" targetRef="t_cc" />
+    <bpmn:sequenceFlow id="f_12" sourceRef="t_cc" targetRef="g_cc" />
+    <bpmn:sequenceFlow id="f_13" name="OK" sourceRef="g_cc" targetRef="t_pre" />
+    <bpmn:sequenceFlow id="f_14" sourceRef="t_pre" targetRef="t_vial" />
+    <bpmn:sequenceFlow id="f_15" sourceRef="t_vial" targetRef="g_vial" />
+    <bpmn:sequenceFlow id="f_16" name="match" sourceRef="g_vial" targetRef="t_admin" />
+    <bpmn:sequenceFlow id="f_17" sourceRef="t_admin" targetRef="t_sign" />
+    <bpmn:sequenceFlow id="f_18" sourceRef="t_sign" targetRef="g_sign" />
+    <bpmn:sequenceFlow id="f_19" name="yes" sourceRef="g_sign" targetRef="t_submit" />
+    <bpmn:sequenceFlow id="f_20" sourceRef="t_submit" targetRef="g_online" />
+    <bpmn:sequenceFlow id="f_21" name="yes" sourceRef="g_online" targetRef="e_done" />
+    <bpmn:sequenceFlow id="f_22" name="no" sourceRef="g_geo" targetRef="r_geo" />
+    <bpmn:sequenceFlow id="f_23" sourceRef="r_geo" targetRef="t_route" />
+    <bpmn:sequenceFlow id="f_24" name="no" sourceRef="g_disp" targetRef="r_stock" />
+    <bpmn:sequenceFlow id="f_25" sourceRef="r_stock" targetRef="e_resched1" />
+    <bpmn:sequenceFlow id="f_26" name="no" sourceRef="g_route" targetRef="r_route" />
+    <bpmn:sequenceFlow id="f_27" sourceRef="r_route" targetRef="t_verify" />
+    <bpmn:sequenceFlow id="f_28" name="no" sourceRef="g_home" targetRef="r_home" />
+    <bpmn:sequenceFlow id="f_29" sourceRef="r_home" targetRef="e_resched2" />
+    <bpmn:sequenceFlow id="f_30" name="no" sourceRef="g_gps" targetRef="r_gps" />
+    <bpmn:sequenceFlow id="f_31" sourceRef="r_gps" targetRef="t_cc" />
+    <bpmn:sequenceFlow id="f_32" name="breach" sourceRef="g_cc" targetRef="r_cc" />
+    <bpmn:sequenceFlow id="f_33" sourceRef="r_cc" targetRef="e_block" />
+    <bpmn:sequenceFlow id="f_34" name="mismatch" sourceRef="g_vial" targetRef="r_vial" />
+    <bpmn:sequenceFlow id="f_35" sourceRef="r_vial" targetRef="t_admin" />
+    <bpmn:sequenceFlow id="f_36" name="no" sourceRef="g_sign" targetRef="r_sign" />
+    <bpmn:sequenceFlow id="f_37" sourceRef="r_sign" targetRef="t_submit" />
+    <bpmn:sequenceFlow id="f_38" name="no" sourceRef="g_online" targetRef="r_off" />
+    <bpmn:sequenceFlow id="f_39" sourceRef="r_off" targetRef="e_done" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_1">
+    <bpmndi:BPMNPlane id="Plane_1" bpmnElement="Collab_1">
+      <bpmndi:BPMNShape id="Pool_fulfill_di" bpmnElement="Pool_fulfill" isHorizontal="true"><dc:Bounds x="160" y="60" width="4176" height="1054" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Ops_di" bpmnElement="Lane_Ops" isHorizontal="true"><dc:Bounds x="190" y="60" width="4146" height="220" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Pharmacy_di" bpmnElement="Lane_Pharmacy" isHorizontal="true"><dc:Bounds x="190" y="280" width="4146" height="220" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Nurse_di" bpmnElement="Lane_Nurse" isHorizontal="true"><dc:Bounds x="190" y="500" width="4146" height="300" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_Patient_di" bpmnElement="Lane_Patient" isHorizontal="true"><dc:Bounds x="190" y="800" width="4146" height="200" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="s0_di" bpmnElement="s0"><dc:Bounds x="240" y="134" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t_geo_di" bpmnElement="t_geo"><dc:Bounds x="420" y="120" width="160" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_geo_di" bpmnElement="g_geo"><dc:Bounds x="600" y="127" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t_route_di" bpmnElement="t_route"><dc:Bounds x="780" y="120" width="160" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t_disp_di" bpmnElement="t_disp"><dc:Bounds x="960" y="340" width="160" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_disp_di" bpmnElement="g_disp"><dc:Bounds x="1140" y="347" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t_nav_di" bpmnElement="t_nav"><dc:Bounds x="1320" y="560" width="160" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_route_di" bpmnElement="g_route"><dc:Bounds x="1500" y="567" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t_verify_di" bpmnElement="t_verify"><dc:Bounds x="1680" y="860" width="160" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_home_di" bpmnElement="g_home"><dc:Bounds x="1860" y="867" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t_gps_di" bpmnElement="t_gps"><dc:Bounds x="2040" y="560" width="160" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_gps_di" bpmnElement="g_gps"><dc:Bounds x="2220" y="567" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t_cc_di" bpmnElement="t_cc"><dc:Bounds x="2400" y="560" width="160" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_cc_di" bpmnElement="g_cc"><dc:Bounds x="2580" y="567" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t_pre_di" bpmnElement="t_pre"><dc:Bounds x="2760" y="560" width="160" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t_vial_di" bpmnElement="t_vial"><dc:Bounds x="2940" y="560" width="160" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_vial_di" bpmnElement="g_vial"><dc:Bounds x="3120" y="567" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t_admin_di" bpmnElement="t_admin"><dc:Bounds x="3300" y="860" width="160" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t_sign_di" bpmnElement="t_sign"><dc:Bounds x="3480" y="560" width="160" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_sign_di" bpmnElement="g_sign"><dc:Bounds x="3660" y="567" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t_submit_di" bpmnElement="t_submit"><dc:Bounds x="3840" y="560" width="160" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g_online_di" bpmnElement="g_online"><dc:Bounds x="4020" y="567" width="50" height="50" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="e_done_di" bpmnElement="e_done"><dc:Bounds x="4200" y="574" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="r_geo_di" bpmnElement="r_geo"><dc:Bounds x="600" y="230" width="160" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="r_stock_di" bpmnElement="r_stock"><dc:Bounds x="1140" y="450" width="160" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="e_resched1_di" bpmnElement="e_resched1"><dc:Bounds x="1202" y="540" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="r_route_di" bpmnElement="r_route"><dc:Bounds x="1500" y="670" width="160" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="r_home_di" bpmnElement="r_home"><dc:Bounds x="1860" y="970" width="160" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="e_resched2_di" bpmnElement="e_resched2"><dc:Bounds x="2030" y="874" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="r_gps_di" bpmnElement="r_gps"><dc:Bounds x="2220" y="670" width="160" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="r_cc_di" bpmnElement="r_cc"><dc:Bounds x="2580" y="670" width="160" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="e_block_di" bpmnElement="e_block"><dc:Bounds x="2750" y="574" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="r_vial_di" bpmnElement="r_vial"><dc:Bounds x="3120" y="670" width="160" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="r_sign_di" bpmnElement="r_sign"><dc:Bounds x="3660" y="670" width="160" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="r_off_di" bpmnElement="r_off"><dc:Bounds x="4020" y="670" width="160" height="64" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="f_0_di" bpmnElement="f_0"><di:waypoint x="276" y="152" /><di:waypoint x="420" y="152" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_1_di" bpmnElement="f_1"><di:waypoint x="580" y="152" /><di:waypoint x="600" y="152" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_2_di" bpmnElement="f_2"><di:waypoint x="650" y="152" /><di:waypoint x="780" y="152" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_3_di" bpmnElement="f_3"><di:waypoint x="860" y="184" /><di:waypoint x="1040" y="340" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_4_di" bpmnElement="f_4"><di:waypoint x="1120" y="372" /><di:waypoint x="1140" y="372" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_5_di" bpmnElement="f_5"><di:waypoint x="1165" y="397" /><di:waypoint x="1400" y="560" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_6_di" bpmnElement="f_6"><di:waypoint x="1480" y="592" /><di:waypoint x="1500" y="592" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_7_di" bpmnElement="f_7"><di:waypoint x="1525" y="617" /><di:waypoint x="1760" y="860" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_8_di" bpmnElement="f_8"><di:waypoint x="1840" y="892" /><di:waypoint x="1860" y="892" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_9_di" bpmnElement="f_9"><di:waypoint x="1885" y="867" /><di:waypoint x="2120" y="624" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_10_di" bpmnElement="f_10"><di:waypoint x="2200" y="592" /><di:waypoint x="2220" y="592" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_11_di" bpmnElement="f_11"><di:waypoint x="2270" y="592" /><di:waypoint x="2400" y="592" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_12_di" bpmnElement="f_12"><di:waypoint x="2560" y="592" /><di:waypoint x="2580" y="592" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_13_di" bpmnElement="f_13"><di:waypoint x="2630" y="592" /><di:waypoint x="2760" y="592" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_14_di" bpmnElement="f_14"><di:waypoint x="2920" y="592" /><di:waypoint x="2940" y="592" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_15_di" bpmnElement="f_15"><di:waypoint x="3100" y="592" /><di:waypoint x="3120" y="592" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_16_di" bpmnElement="f_16"><di:waypoint x="3145" y="617" /><di:waypoint x="3380" y="860" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_17_di" bpmnElement="f_17"><di:waypoint x="3380" y="860" /><di:waypoint x="3560" y="624" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_18_di" bpmnElement="f_18"><di:waypoint x="3640" y="592" /><di:waypoint x="3660" y="592" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_19_di" bpmnElement="f_19"><di:waypoint x="3710" y="592" /><di:waypoint x="3840" y="592" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_20_di" bpmnElement="f_20"><di:waypoint x="4000" y="592" /><di:waypoint x="4020" y="592" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_21_di" bpmnElement="f_21"><di:waypoint x="4070" y="592" /><di:waypoint x="4200" y="592" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_22_di" bpmnElement="f_22"><di:waypoint x="625" y="177" /><di:waypoint x="680" y="230" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_23_di" bpmnElement="f_23"><di:waypoint x="680" y="230" /><di:waypoint x="860" y="184" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_24_di" bpmnElement="f_24"><di:waypoint x="1165" y="397" /><di:waypoint x="1220" y="450" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_25_di" bpmnElement="f_25"><di:waypoint x="1220" y="514" /><di:waypoint x="1220" y="540" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_26_di" bpmnElement="f_26"><di:waypoint x="1525" y="617" /><di:waypoint x="1580" y="670" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_27_di" bpmnElement="f_27"><di:waypoint x="1580" y="734" /><di:waypoint x="1760" y="860" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_28_di" bpmnElement="f_28"><di:waypoint x="1885" y="917" /><di:waypoint x="1940" y="970" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_29_di" bpmnElement="f_29"><di:waypoint x="1940" y="970" /><di:waypoint x="2048" y="910" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_30_di" bpmnElement="f_30"><di:waypoint x="2245" y="617" /><di:waypoint x="2300" y="670" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_31_di" bpmnElement="f_31"><di:waypoint x="2300" y="670" /><di:waypoint x="2480" y="624" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_32_di" bpmnElement="f_32"><di:waypoint x="2605" y="617" /><di:waypoint x="2660" y="670" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_33_di" bpmnElement="f_33"><di:waypoint x="2660" y="670" /><di:waypoint x="2768" y="610" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_34_di" bpmnElement="f_34"><di:waypoint x="3145" y="617" /><di:waypoint x="3200" y="670" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_35_di" bpmnElement="f_35"><di:waypoint x="3200" y="734" /><di:waypoint x="3380" y="860" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_36_di" bpmnElement="f_36"><di:waypoint x="3685" y="617" /><di:waypoint x="3740" y="670" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_37_di" bpmnElement="f_37"><di:waypoint x="3740" y="670" /><di:waypoint x="3920" y="624" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_38_di" bpmnElement="f_38"><di:waypoint x="4045" y="617" /><di:waypoint x="4100" y="670" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="f_39_di" bpmnElement="f_39"><di:waypoint x="4100" y="670" /><di:waypoint x="4218" y="610" /></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

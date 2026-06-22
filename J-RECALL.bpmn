@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Defs_J-RECALL" targetNamespace="http://medica/flows">
+  <bpmn:collaboration id="Collab_J-RECALL"><bpmn:participant id="Pool_J-RECALL" name="Batch Recall (J-RECALL)" processRef="Proc_J-RECALL" /></bpmn:collaboration>
+  <bpmn:process id="Proc_J-RECALL" isExecutable="false">
+    <bpmn:laneSet id="LS_J-RECALL">
+      <bpmn:lane id="Lane_J-RECALL_Pharmacy" name="Pharmacy">
+        <bpmn:flowNodeRef>s0</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_flag</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_redisp</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_J-RECALL_Ops" name="Ops">
+        <bpmn:flowNodeRef>t_aff</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g_state</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_replace</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_J-RECALL_Doctor" name="Doctor">
+        <bpmn:flowNodeRef>t_follow</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_J-RECALL_Patient" name="Patient">
+        <bpmn:flowNodeRef>e_replaced</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>e_followed</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="s0" name="Recall issued">
+      <bpmn:outgoing>f0</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="t_flag" name="Flag batch recalled, cascade vials (PH-B.H1)">
+      <bpmn:incoming>f0</bpmn:incoming>
+      <bpmn:outgoing>f1</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t_aff" name="Compute affected patients (PH-B.H2)">
+      <bpmn:incoming>f1</bpmn:incoming>
+      <bpmn:outgoing>f2</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="g_state" name="Vial state?">
+      <bpmn:incoming>f2</bpmn:incoming>
+      <bpmn:outgoing>f3</bpmn:outgoing>
+      <bpmn:outgoing>f6</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="t_replace" name="Open replacement order (R-REPLACE / OP-C.H2)">
+      <bpmn:incoming>f3</bpmn:incoming>
+      <bpmn:outgoing>f4</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t_redisp" name="Re-dispense + reschedule">
+      <bpmn:incoming>f4</bpmn:incoming>
+      <bpmn:outgoing>f5</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="e_replaced" name="Dose replaced">
+      <bpmn:incoming>f5</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="t_follow" name="Clinical follow-up + comms (R-RECALL)">
+      <bpmn:incoming>f6</bpmn:incoming>
+      <bpmn:outgoing>f7</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="e_followed" name="Patient followed up">
+      <bpmn:incoming>f7</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="f0" sourceRef="s0" targetRef="t_flag" />
+    <bpmn:sequenceFlow id="f1" sourceRef="t_flag" targetRef="t_aff" />
+    <bpmn:sequenceFlow id="f2" sourceRef="t_aff" targetRef="g_state" />
+    <bpmn:sequenceFlow id="f3" name="scheduled" sourceRef="g_state" targetRef="t_replace" />
+    <bpmn:sequenceFlow id="f4" sourceRef="t_replace" targetRef="t_redisp" />
+    <bpmn:sequenceFlow id="f5" sourceRef="t_redisp" targetRef="e_replaced" />
+    <bpmn:sequenceFlow id="f6" name="already injected" sourceRef="g_state" targetRef="t_follow" />
+    <bpmn:sequenceFlow id="f7" sourceRef="t_follow" targetRef="e_followed" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Dg_J-RECALL"><bpmndi:BPMNPlane id="Pl_J-RECALL" bpmnElement="Collab_J-RECALL">
+    <bpmndi:BPMNShape id="Pool_J-RECALL_di" bpmnElement="Pool_J-RECALL" isHorizontal="true"><dc:Bounds x="150" y="50" width="1406" height="1240" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_J-RECALL_Pharmacy_di" bpmnElement="Lane_J-RECALL_Pharmacy" isHorizontal="true"><dc:Bounds x="180" y="60" width="1376" height="300" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_J-RECALL_Ops_di" bpmnElement="Lane_J-RECALL_Ops" isHorizontal="true"><dc:Bounds x="180" y="360" width="1376" height="300" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_J-RECALL_Doctor_di" bpmnElement="Lane_J-RECALL_Doctor" isHorizontal="true"><dc:Bounds x="180" y="660" width="1376" height="300" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_J-RECALL_Patient_di" bpmnElement="Lane_J-RECALL_Patient" isHorizontal="true"><dc:Bounds x="180" y="960" width="1376" height="300" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="s0_di" bpmnElement="s0"><dc:Bounds x="240" y="129" width="36" height="36" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="t_flag_di" bpmnElement="t_flag"><dc:Bounds x="440" y="115" width="170" height="64" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="t_aff_di" bpmnElement="t_aff"><dc:Bounds x="640" y="415" width="170" height="64" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="g_state_di" bpmnElement="g_state"><dc:Bounds x="840" y="422" width="50" height="50" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="t_replace_di" bpmnElement="t_replace"><dc:Bounds x="1040" y="415" width="170" height="64" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="t_redisp_di" bpmnElement="t_redisp"><dc:Bounds x="1240" y="115" width="170" height="64" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="e_replaced_di" bpmnElement="e_replaced"><dc:Bounds x="1440" y="1029" width="36" height="36" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="t_follow_di" bpmnElement="t_follow"><dc:Bounds x="1040" y="820" width="170" height="64" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="e_followed_di" bpmnElement="e_followed"><dc:Bounds x="1240" y="1134" width="36" height="36" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNEdge id="f0_di" bpmnElement="f0"><di:waypoint x="276" y="147" /><di:waypoint x="440" y="147" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f1_di" bpmnElement="f1"><di:waypoint x="525" y="179" /><di:waypoint x="725" y="415" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f2_di" bpmnElement="f2"><di:waypoint x="810" y="447" /><di:waypoint x="840" y="447" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f3_di" bpmnElement="f3"><di:waypoint x="890" y="447" /><di:waypoint x="1040" y="447" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f4_di" bpmnElement="f4"><di:waypoint x="1125" y="415" /><di:waypoint x="1325" y="179" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f5_di" bpmnElement="f5"><di:waypoint x="1325" y="179" /><di:waypoint x="1458" y="1029" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f6_di" bpmnElement="f6"><di:waypoint x="865" y="472" /><di:waypoint x="1125" y="820" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f7_di" bpmnElement="f7"><di:waypoint x="1125" y="884" /><di:waypoint x="1258" y="1134" /></bpmndi:BPMNEdge>
+  </bpmndi:BPMNPlane></bpmndi:BPMNDiagram>
+</bpmn:definitions>

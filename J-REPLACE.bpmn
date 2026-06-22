@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Defs_J-REPLACE" targetNamespace="http://medica/flows">
+  <bpmn:collaboration id="Collab_J-REPLACE"><bpmn:participant id="Pool_J-REPLACE" name="Cold-Chain / Vial Replacement (J-REPLACE)" processRef="Proc_J-REPLACE" /></bpmn:collaboration>
+  <bpmn:process id="Proc_J-REPLACE" isExecutable="false">
+    <bpmn:laneSet id="LS_J-REPLACE">
+      <bpmn:lane id="Lane_J-REPLACE_Nurse" name="Nurse">
+        <bpmn:flowNodeRef>s0</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_rec</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_revisit</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_J-REPLACE_Ops" name="Ops">
+        <bpmn:flowNodeRef>t_order</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_reassign</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_J-REPLACE_Pharmacy" name="Pharmacy">
+        <bpmn:flowNodeRef>t_disp</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_J-REPLACE_Patient" name="Patient">
+        <bpmn:flowNodeRef>t_notify</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>e_done</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="s0" name="Cold-chain breach / vial mismatch (NF-A.U3/U4)">
+      <bpmn:outgoing>f0</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="t_rec" name="Record breach, mark vial damaged, abort visit">
+      <bpmn:incoming>f0</bpmn:incoming>
+      <bpmn:outgoing>f1</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t_order" name="Open replacement order (OP-C.H2 / R-REPLACE)">
+      <bpmn:incoming>f1</bpmn:incoming>
+      <bpmn:outgoing>f2</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t_disp" name="Dispense fresh vial (PH-A)">
+      <bpmn:incoming>f2</bpmn:incoming>
+      <bpmn:outgoing>f3</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t_reassign" name="Reassign nurse / reschedule (R-RESCHEDULE)">
+      <bpmn:incoming>f3</bpmn:incoming>
+      <bpmn:outgoing>f4</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t_notify" name="Patient notified of new time">
+      <bpmn:incoming>f4</bpmn:incoming>
+      <bpmn:outgoing>f5</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t_revisit" name="Replacement visit -&gt; re-enter safety sequence (NF-A)">
+      <bpmn:incoming>f5</bpmn:incoming>
+      <bpmn:outgoing>f6</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="e_done" name="Replacement delivered">
+      <bpmn:incoming>f6</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="f0" sourceRef="s0" targetRef="t_rec" />
+    <bpmn:sequenceFlow id="f1" sourceRef="t_rec" targetRef="t_order" />
+    <bpmn:sequenceFlow id="f2" sourceRef="t_order" targetRef="t_disp" />
+    <bpmn:sequenceFlow id="f3" sourceRef="t_disp" targetRef="t_reassign" />
+    <bpmn:sequenceFlow id="f4" sourceRef="t_reassign" targetRef="t_notify" />
+    <bpmn:sequenceFlow id="f5" sourceRef="t_notify" targetRef="t_revisit" />
+    <bpmn:sequenceFlow id="f6" sourceRef="t_revisit" targetRef="e_done" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Dg_J-REPLACE"><bpmndi:BPMNPlane id="Pl_J-REPLACE" bpmnElement="Collab_J-REPLACE">
+    <bpmndi:BPMNShape id="Pool_J-REPLACE_di" bpmnElement="Pool_J-REPLACE" isHorizontal="true"><dc:Bounds x="150" y="50" width="1606" height="1240" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_J-REPLACE_Nurse_di" bpmnElement="Lane_J-REPLACE_Nurse" isHorizontal="true"><dc:Bounds x="180" y="60" width="1576" height="300" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_J-REPLACE_Ops_di" bpmnElement="Lane_J-REPLACE_Ops" isHorizontal="true"><dc:Bounds x="180" y="360" width="1576" height="300" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_J-REPLACE_Pharmacy_di" bpmnElement="Lane_J-REPLACE_Pharmacy" isHorizontal="true"><dc:Bounds x="180" y="660" width="1576" height="300" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="Lane_J-REPLACE_Patient_di" bpmnElement="Lane_J-REPLACE_Patient" isHorizontal="true"><dc:Bounds x="180" y="960" width="1576" height="300" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="s0_di" bpmnElement="s0"><dc:Bounds x="240" y="129" width="36" height="36" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="t_rec_di" bpmnElement="t_rec"><dc:Bounds x="440" y="115" width="170" height="64" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="t_order_di" bpmnElement="t_order"><dc:Bounds x="640" y="415" width="170" height="64" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="t_disp_di" bpmnElement="t_disp"><dc:Bounds x="840" y="715" width="170" height="64" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="t_reassign_di" bpmnElement="t_reassign"><dc:Bounds x="1040" y="415" width="170" height="64" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="t_notify_di" bpmnElement="t_notify"><dc:Bounds x="1240" y="1015" width="170" height="64" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="t_revisit_di" bpmnElement="t_revisit"><dc:Bounds x="1440" y="115" width="170" height="64" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNShape id="e_done_di" bpmnElement="e_done"><dc:Bounds x="1640" y="1029" width="36" height="36" /></bpmndi:BPMNShape>
+    <bpmndi:BPMNEdge id="f0_di" bpmnElement="f0"><di:waypoint x="276" y="147" /><di:waypoint x="440" y="147" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f1_di" bpmnElement="f1"><di:waypoint x="525" y="179" /><di:waypoint x="725" y="415" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f2_di" bpmnElement="f2"><di:waypoint x="725" y="479" /><di:waypoint x="925" y="715" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f3_di" bpmnElement="f3"><di:waypoint x="925" y="715" /><di:waypoint x="1125" y="479" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f4_di" bpmnElement="f4"><di:waypoint x="1125" y="479" /><di:waypoint x="1325" y="1015" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f5_di" bpmnElement="f5"><di:waypoint x="1325" y="1015" /><di:waypoint x="1525" y="179" /></bpmndi:BPMNEdge>
+    <bpmndi:BPMNEdge id="f6_di" bpmnElement="f6"><di:waypoint x="1525" y="179" /><di:waypoint x="1658" y="1029" /></bpmndi:BPMNEdge>
+  </bpmndi:BPMNPlane></bpmndi:BPMNDiagram>
+</bpmn:definitions>
