@@ -322,7 +322,7 @@ The owner and recovery target for every unhappy-path entry. **These are the `res
 | UP-NUR-05 Safety button | ops / CS · RFLOW-06 |
 | UP-NUR-06 Offline mid-visit | deferred (offline spec dropped) — no RFLOW |
 | UP-NUR-07 Route unavailable / Optime down | self-service (work list manually) — no RFLOW |
-| UP-NUR-08 Signature capture fails | self-service (OTP fallback) — no RFLOW |
+| UP-NUR-08 SMS not received | resend / supervisor-confirmed manual receipt — no RFLOW |
 | UP-NUR-09 Inventory shortage at pickup | pharmacy + ops · RFLOW-09 |
 | UP-NUR-10 Empty states | n/a |
 | UP-DOC-01 External prescription rejected/invalid | doctor · RFLOW-19 |

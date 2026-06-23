@@ -187,7 +187,8 @@ Owns nurse visits, injections, field cold-chain, routing, nurse inventory, and s
 - *the "breach ⇒ do not administer" rule is defined in the clinical spec.*
 
 **service_receipt** · serves F-174, F-222, F-441 · STEP-4A-09, 4B-03, 4B-05
-- fields: `nurse_visit_id`, `signature_ref`, `otp_confirmed` (bool), `med_received` (bool), `confirmed_at`
+- fields: `nurse_visit_id`, `confirmed_via` enum(sms), `sms_confirmed` (bool), `med_received` (bool), `confirmed_at`
+- *receipt is confirmed by a one-time **SMS code** sent to the patient's phone (F-441) — no signature image is stored.*
 
 **education_record** · serves F-440 · STEP-5-16
 - fields: `nurse_visit_id`, `topics` (jsonb), `notes`, `recorded_at`

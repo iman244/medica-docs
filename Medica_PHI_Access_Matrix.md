@@ -130,7 +130,7 @@ The assigned nurse sees **only allergies + current dose context**, matching `STE
 | `assessment_record` (vitals) | `R~` | `R` | `RW` | — | — | — | `R` |
 | `coldchain_reading` (temp/breach) | — | — | `RW` | `R` (hub) | — | — | `R` |
 | `nurse_visit.address_snapshot` / `checkin_geo` | `R` (own) | — | `RW` | — | `R` (logistics) | — | `R` |
-| `service_receipt.signature_ref` | `R` (own) | — | `RW` | — | — | — | `R~` |
+| `service_receipt.sms_confirmed` | `R` (own) | — | `RW` | — | — | — | `R~` |
 | `nurse_note` (nurse's note about patient) | — | — | `RW` (own) | — | — | — | `A` |
 
 ---

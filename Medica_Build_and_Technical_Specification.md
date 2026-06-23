@@ -387,11 +387,14 @@ Doctor scheduling F-340 `[manual→M6]`; refund F-147 `[manual→M4]`; F-301, F-
   - data · ← `dose, site, vial_barcode` · → `injection_record{ id, administered_at }`
 - comp · `CMP-NUR-007` · InjectionRecorder · mfe-nurse · site chart + vial
 
-**STEP-4A-09 — Patient signs** · serves F-441
-- actor: nurse (assigned, captures patient signature) · requires: `nurse_visit:write:assigned`
-- api · `API-FIELD-008` · POST /nurse-visits/{id}/signature · field · patient signature
-  - data · ← `signature_image` · → `service_receipt{ id, confirmed_at }`
-- comp · `CMP-NUR-008` · SignaturePad · mfe-nurse · signature
+**STEP-4A-09 — Patient confirms by SMS code** · serves F-441
+- actor: nurse (assigned) · requires: `nurse_visit:write:assigned`
+- api · `API-NOTIF-004` · POST /nurse-visits/{id}/confirm/send-sms · notif · send a one-time confirmation code by SMS to the patient's phone
+  - data · ← `nurse_visit_id` · → `sent`
+- api · `API-FIELD-008` · POST /nurse-visits/{id}/confirm · field · verify the code the patient received → record receipt
+  - data · ← `sms_code` · → `service_receipt{ id, confirmed_at }`
+- comp · `CMP-NUR-008` · SmsReceiptConfirm · mfe-nurse · send + enter the SMS code the patient reads out
+- *replaces the prior on-device signature: the patient confirms receipt with a one-time code sent to their **own phone** by SMS (proves presence + receipt). If the SMS doesn't arrive (`UP-NUR-08`), resend or fall back to a supervisor-confirmed manual receipt (`R-OTP-RECEIPT`).*
 
 **STEP-4A-10 — Submit visit** · serves F-442
 - actor: nurse (assigned) · requires: `nurse_visit:write:assigned`

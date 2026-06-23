@@ -134,11 +134,11 @@
       <bpmn:incoming>f31</bpmn:incoming>
       <bpmn:outgoing>f32</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t_sign" name="Patient signs (NF-A.H9)">
+    <bpmn:task id="t_sign" name="Patient confirms by SMS code (NF-A.H9)">
       <bpmn:incoming>f32</bpmn:incoming>
       <bpmn:outgoing>f33</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:exclusiveGateway id="g_sign" name="Signed?">
+    <bpmn:exclusiveGateway id="g_sign" name="SMS confirmed?">
       <bpmn:incoming>f33</bpmn:incoming>
       <bpmn:outgoing>f34</bpmn:outgoing>
       <bpmn:outgoing>f35</bpmn:outgoing>
@@ -194,7 +194,7 @@
       <bpmn:incoming>f30</bpmn:incoming>
       <bpmn:outgoing>f31</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="r_sign" name="OTP receipt fallback (R-OTP-RECEIPT)">
+    <bpmn:task id="r_sign" name="Resend SMS / manual confirm (R-OTP-RECEIPT)">
       <bpmn:incoming>f35</bpmn:incoming>
       <bpmn:outgoing>f36</bpmn:outgoing>
     </bpmn:task>

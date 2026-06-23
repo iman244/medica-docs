@@ -133,7 +133,7 @@ ID scheme: `PF-A` flow · `PF-A.H3` happy step 3 · `PF-A.U2` unhappy branch 2 (
 ## PF-E · Home nurse visit & tracking (patient side)
 
 **Happy**
-- `PF-E.H1` See schedule + nurse profile · F-170, F-220 · **M4**
+- `PF-E.H1` See schedule + nurse profile · F-170, F-220 · **M5**
 - `PF-E.H2` Verify nurse identity on arrival · F-221 · **M5**
 - `PF-E.H3` Confirm or change the time (single session) · F-171 · may trigger: `PF-E.U1` · **M5**
 - `PF-E.H4` Confirm medication received · F-222 · **M5**
@@ -173,7 +173,7 @@ ID scheme: `PF-A` flow · `PF-A.H3` happy step 3 · `PF-A.U2` unhappy branch 2 (
 - `PF-G.H4` Content library · F-195, F-196, F-197, F-199 · **M6**
 - `PF-G.H5` Foodnoise tracking · F-223, F-224 · **M6**
 - `PF-G.H6` Multiple addresses + weight history · F-114, F-116, F-117 · **M6**
-- `PF-G.H7` Support chat + FAQ + emergency line · F-207, F-209, F-210 · **M6**
+- `PF-G.H7` Support chat + FAQ + emergency line · F-207, F-209, F-210 · **M7**
 - `PF-G.H8` Visit chat + survey + history PDF · F-154, F-156, F-158 · **M7**
 - `PF-G.H9` Pricing perks · F-132, F-144 · **M7**
 
@@ -271,7 +271,7 @@ ID scheme: `PF-A` flow · `PF-A.H3` happy step 3 · `PF-A.U2` unhappy branch 2 (
 - `NF-A.H6` Record cold-chain temperature · F-433 · may trigger: `NF-A.U3` · **M3**
 - `NF-A.H7` Pre-injection assessment · F-434 · **M3**
 - `NF-A.H8` Scan vial, then record injection site · F-437 · may trigger: `NF-A.U4` · **M3**
-- `NF-A.H9` Patient signs · F-441 · may trigger: `NF-A.U5` · **M3**
+- `NF-A.H9` Patient confirms by SMS code · F-441 · may trigger: `NF-A.U5` · **M3**
 - `NF-A.H10` Submit the visit · F-442 · **M3**
 
 **Unhappy**
@@ -279,7 +279,7 @@ ID scheme: `PF-A` flow · `PF-A.H3` happy step 3 · `PF-A.U2` unhappy branch 2 (
 - `NF-A.U2` **Patient not home / refuses / unsafe** (at H5) → `R-RESCHEDULE` · F: — · **M3**
 - `NF-A.U3` **Cold-chain breach → do not administer** (at H6) → `R-REPLACE` · F-433 · **M3**
 - `NF-A.U4` **Wrong / mismatched vial scanned** (at H8) → `R-VIAL-RESCAN` · F-437 · **M3**
-- `NF-A.U5` **Signature capture fails / patient can't sign** (at H9) → `R-OTP-RECEIPT` · F-441 · **M3**
+- `NF-A.U5` **SMS not received / patient can't confirm** (at H9) → `R-OTP-RECEIPT` · F-441 · **M3**
 - `NF-A.U6` **Offline mid-visit** (any step) → `R-OFFLINE-CAPTURE` · F-430, F-442 · **M3**
 
 **Recoveries**
@@ -292,8 +292,8 @@ ID scheme: `PF-A` flow · `PF-A.H3` happy step 3 · `PF-A.U2` unhappy branch 2 (
 2. If none is usable, report it and enter `R-REPLACE`.
 - ⤓ proceed with correct vial, or abort + replacement.
 
-### `R-OTP-RECEIPT` — OTP receipt fallback · F-441 · **used by:** NF-A.U5 · **M3**
-1. Fall back to an OTP receipt to confirm delivery. — ⤴ continue.
+### `R-OTP-RECEIPT` — Resend SMS / manual confirm · F-441 · **used by:** NF-A.U5 · **M3**
+1. Resend the SMS code. 2. If still undelivered, the nurse records a supervisor-confirmed manual receipt. — ⤴ continue.
 
 ### `R-OFFLINE-CAPTURE` — Offline capture + sync · F-430, F-442 · **used by:** NF-A.U6 · **M3**
 1. Capture everything offline. 2. Sync when connectivity returns.
@@ -302,7 +302,7 @@ ID scheme: `PF-A` flow · `PF-A.H3` happy step 3 · `PF-A.U2` unhappy branch 2 (
 ## NF-B · Safety & emergency
 
 **Happy**
-- `NF-B.H1` Escalate an emergency · F-443 · **M3**
+- `NF-B.H1` Escalate an emergency · F-443 · **M4**
 - `NF-B.H2` Press the safety button · F-497 · may trigger: `NF-B.U1` · **M4**
 - `NF-B.H3` Emergency escalation in-software, routed to CS · F-443 · **M4**
 
@@ -431,15 +431,15 @@ ID scheme: `PF-A` flow · `PF-A.H3` happy step 3 · `PF-A.U2` unhappy branch 2 (
 - `OP-B.H5` Reschedule tool · F-619 · **M5**
 
 **Unhappy**
-- `OP-B.U1` **Geocode failed** (at H1) → `R-GEOCODE-MANUAL` · F-701 · **M5**
-- `OP-B.U2` **Incident / cold-chain network alert** (at H4) → `R-INCIDENT-TRIAGE` · F-617, F-618 · **M5**
+- `OP-B.U1` **Geocode failed** (at H1) → `R-GEOCODE-MANUAL` · F-701 · **M6**
+- `OP-B.U2` **Incident / cold-chain network alert** (at H4) → `R-INCIDENT-TRIAGE` · F-617, F-618 · **M6**
 
 **Recoveries**
 
-### `R-GEOCODE-MANUAL` — Manual geocode pin · F-701 · **used by:** OP-B.U1 · **M5**
+### `R-GEOCODE-MANUAL` — Manual geocode pin · F-701 · **used by:** OP-B.U1 · **M6**
 1. Allow a manual map-pin. 2. Or retry. — ⤴ continue.
 
-### `R-INCIDENT-TRIAGE` — Incident triage · F-617, F-618 · **used by:** OP-B.U2 · **M5**
+### `R-INCIDENT-TRIAGE` — Incident triage · F-617, F-618 · **used by:** OP-B.U2 · **M6**
 1. Triage on the ops incident feed (the must-alert hub). 2. Drive the matching recovery.
 
 
@@ -473,12 +473,12 @@ ID scheme: `PF-A` flow · `PF-A.H3` happy step 3 · `PF-A.U2` unhappy branch 2 (
 1. A failed refund, external chargeback, or refund exceeding wallet balance surfaces on the finance dashboard.
 2. Finance reconciles by hand.
 
-### `R-SETTLE-RETRY` — Settlement-run failure · F-629 · **used by:** OP-D.U2 · **M4**
+### `R-SETTLE-RETRY` — Settlement-run failure · F-629 · **used by:** OP-D.U2 · **M5**
 1. Show per-item results.
 2. Retry only the failed items (idempotent rerun — no double-pay).
 - ⤴ completes.
 
-### `R-BULK-RETRY` — Per-row retry · F-644 · **used by:** OP-D.U3 · **M4**
+### `R-BULK-RETRY` — Per-row retry · F-644 · **used by:** OP-D.U3 · **M5**
 1. Show per-row results. 2. Retry only the failed rows.
 
 ---

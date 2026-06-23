@@ -85,7 +85,7 @@
 - **F-171** — Confirm/change nurse visit time
 - **F-181** — Reserve a **recurring weekly** injection-visit time (standing appointment); edit the weekly time later (reschedules the whole future series — "overall"), or reschedule a single session (`F-171`)
 - **F-172** — Live tracking of nurse location en route (Optime AI)
-- **F-174** — Digital confirmation of service receipt (signature/OTP)
+- **F-174** — Confirmation of service receipt (one-time SMS code)
 - **F-175** — My Injections — injection history (date, dose, vial)
 - **F-176** — Next-injection reminder
 - **F-177** — Side-effect report (drop-down + free text)
@@ -187,7 +187,7 @@
 - **F-434** — Pre-injection assessment (vital signs, recent side effects)
 - **F-437** — Record injection site (rotation chart to prevent lipohypertrophy)
 - **F-440** — Record patient education — covered in service-quality questionnaire
-- **F-441** — Patient digital signature (service-receipt confirmation)
+- **F-441** — Patient confirms service receipt with a one-time **SMS code** (sent to their own phone; replaces the on-device digital signature)
 - **F-442** — Submit visit + automatic packaging into the financial system
 - **F-443** — Report emergency issue — routed to Customer Service (callcenter), not doctor
 

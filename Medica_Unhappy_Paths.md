@@ -169,7 +169,7 @@ UP-ID — name
 - shows: fall back to unordered assigned list + manual nav · copy: low-key · recovery: work the list manually, contact ops · handling: user-visible (graceful degradation)
 - resolver: self-service (work the list manually) — no RFLOW
 
-**UP-NUR-08 — Signature capture fails / patient can't sign** · serves F-441
+**UP-NUR-08 — SMS not received / patient can't confirm** · serves F-441
 - trigger: device/signature issue at STEP-4A-09 · who: nurse · pattern: inline
 - shows: alternative confirmation (OTP to patient phone) · copy: practical · recovery: OTP fallback, retry · handling: user-visible
 - resolver: self-service (OTP fallback) — no RFLOW

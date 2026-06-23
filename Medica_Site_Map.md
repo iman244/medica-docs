@@ -117,7 +117,7 @@ Notes: these are **frontend** health checks (the Next.js process); each FastAPI 
 | `SCR-NUR-06` | `/nurse/visits/[id]/cold-chain` | dynamic | ColdChainEntry (`CMP-NUR-005`) |
 | `SCR-NUR-07` | `/nurse/visits/[id]/assessment` | dynamic | PreInjectionAssessment (`CMP-NUR-006`) |
 | `SCR-NUR-08` | `/nurse/visits/[id]/injection` | dynamic | InjectionRecorder (`CMP-NUR-007`) |
-| `SCR-NUR-09` | `/nurse/visits/[id]/signature` | dynamic | SignaturePad (`CMP-NUR-008`) |
+| `SCR-NUR-09` | `/nurse/visits/[id]/confirm` | dynamic | SmsReceiptConfirm (`CMP-NUR-008`) |
 | `SCR-NUR-10` | `/nurse/visits/[id]/submit` | dynamic | VisitSubmit (`CMP-NUR-009`) |
 | `SCR-NUR-11` | `/nurse/safety` | overlay | SafetyButton (`CMP-NUR-010`) |
 | `SCR-NUR-12` | `/nurse/route/map` | static | RouteMapOptimized (`CMP-NUR-020`) |

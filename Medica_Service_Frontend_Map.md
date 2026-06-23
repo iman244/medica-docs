@@ -77,7 +77,7 @@ Part A services → endpoints → flow steps. Part B MFEs → routes → flow st
 | `API-FIELD-005` | `POST /nurse-visits/{id}/coldchain` | `NF-A.H6`, `OP-C.H2`, `NF-A.U3`, `R-REPLACE` |
 | `API-FIELD-006` | `POST /nurse-visits/{id}/assessment` | `NF-A.H7` |
 | `API-FIELD-007` | `POST /nurse-visits/{id}/injection` | `NF-A.H8`, `NF-A.U4`, `R-VIAL-RESCAN` |
-| `API-FIELD-008` | `POST /nurse-visits/{id}/signature` | `NF-A.H9`, `NF-A.U5`, `R-OTP-RECEIPT` |
+| `API-FIELD-008` | `POST /nurse-visits/{id}/confirm` | `NF-A.H9`, `NF-A.U5`, `R-OTP-RECEIPT` |
 | `API-FIELD-009` | `POST /nurse-visits/{id}/submit` | `NF-A.H10`, `NF-A.U6`, `R-OFFLINE-CAPTURE` |
 | `API-FIELD-010` | `POST /nurse-visits/{id}/emergency` | `CS-A.H4`, `NF-B.H1`, `NF-B.H3`, `R-SAFETY-ESC` |
 | `API-FIELD-011` | `POST /me/safety` | `NF-B.H2`, `NF-B.U1`, `R-SAFETY-ESC` |
@@ -136,6 +136,7 @@ Part A services → endpoints → flow steps. Part B MFEs → routes → flow st
 | `API-NOTIF-001/002` | `POST /notify/{sms,push}` | `PF-B.H9` |
 | `API-NOTIF-002` | `POST /notify/push` | `NF-C.H7` |
 | `API-NOTIF-003` | `POST /notify/schedule` | `PF-D.H2`, `PF-E.H8` |
+| `API-NOTIF-004` | `POST /nurse-visits/{id}/confirm/send-sms` | `NF-A.H9`, `NF-A.U5`, `R-OTP-RECEIPT` |
 | `API-NOTIF-010` | `POST /campaigns/sms` | `OP-D.H5`, `OP-D.U3`, `R-BULK-RETRY` |
 
 ### `crm` · CS & affiliate
@@ -244,7 +245,7 @@ Part A services → endpoints → flow steps. Part B MFEs → routes → flow st
 | `/nurse/visits/[id]/cold-chain` | CMP-NUR-005 | `NF-A.H6`, `OP-C.H2`, `NF-A.U3`, `R-REPLACE` |
 | `/nurse/visits/[id]/assessment` | CMP-NUR-006 | `NF-A.H7` |
 | `/nurse/visits/[id]/injection` | CMP-NUR-007 | `NF-A.H8`, `NF-A.U4`, `R-VIAL-RESCAN` |
-| `/nurse/visits/[id]/signature` | CMP-NUR-008 | `NF-A.H9`, `NF-A.U5`, `R-OTP-RECEIPT` |
+| `/nurse/visits/[id]/confirm` | CMP-NUR-008 | `NF-A.H9`, `NF-A.U5`, `R-OTP-RECEIPT` |
 | `/nurse/visits/[id]/submit` | CMP-NUR-009 | `NF-A.H10`, `NF-A.U6`, `R-OFFLINE-CAPTURE` |
 | `/nurse/safety` | CMP-NUR-010 | `CS-A.H4`, `NF-B.H1`, `NF-B.H2`, `NF-B.H3`, `NF-B.U1`, `R-SAFETY-ESC` |
 | `/nurse/route/map` | CMP-NUR-020 | `CS-A.H1`, `NF-C.H1`, `OP-B.H2`, `PF-E.H6`, `NF-C.U1`, `PF-E.U2`, `R-TRACK-FALLBACK` |

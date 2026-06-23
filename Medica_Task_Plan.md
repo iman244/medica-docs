@@ -4,7 +4,7 @@ Every task has a **`T-###` id** and its flow id. Tasks are happy (`.H`)/unhappy 
 
 **Rubric.** API 1 pt (`GET`)/2 pt (mutation) +1 clinical/payment/routing +1 third-party (cap 4); component 1/2/3. Unhappy 1 pt. Recovery 1/2 pt (+1 `[clinical]`). DevOps per item.
 
-**Totals: 589 points** across 246 tasks — happy 406 · unhappy 60 · recovery 72 · devops 51.
+**Totals: 592 points** across 246 tasks — happy 409 · unhappy 60 · recovery 72 · devops 51.
 
 | section | pts |
 |---|--:|
@@ -18,7 +18,7 @@ Every task has a **`T-###` id** and its flow id. Tasks are happy (`.H`)/unhappy 
 | MF-A | 11 |
 | DF-A | 27 |
 | DF-B | 24 |
-| NF-A | 44 |
+| NF-A | 47 |
 | NF-B | 14 |
 | NF-C | 32 |
 | PH-A | 30 |
@@ -32,7 +32,7 @@ Every task has a **`T-###` id** and its flow id. Tasks are happy (`.H`)/unhappy 
 | XF | 14 |
 | (shared recoveries) | 13 |
 | DEVOPS | 51 |
-| **total** | **589** |
+| **total** | **592** |
 ---
 
 ## PF-A · Account & login — 34 pts
@@ -611,7 +611,7 @@ Every task has a **`T-###` id** and its flow id. Tasks are happy (`.H`)/unhappy 
 ### `T-103` · `R-REASSIGN` Provider reassignment / in-flight care — **2 pts**
 *recovery (recovery flow)*
 
-## NF-A · Home-visit safety sequence — 44 pts
+## NF-A · Home-visit safety sequence — 47 pts
 
 ### `T-104` · `NF-A.H1` Nurse logs in — **4 pts**
 *happy · depends on: — · STEP-4A-01*
@@ -669,12 +669,14 @@ Every task has a **`T-###` id** and its flow id. Tasks are happy (`.H`)/unhappy 
 - **nurse app** · frontend (`mfe-nurse`)
   - `CMP-NUR-007` · InjectionRecorder — site chart + vial **(1 pt)**
 
-### `T-112` · `NF-A.H9` Patient signs — **3 pts**
+### `T-112` · `NF-A.H9` Patient confirms by SMS code — **6 pts**
 *happy · depends on: NF-A.H8 · STEP-4A-09*
 - **`field` service** · backend
-  - `API-FIELD-008` · POST /nurse-visits/{id}/signature — patient signature **(2 pt)**
+  - `API-FIELD-008` · POST /nurse-visits/{id}/confirm — verify the code the patient received → record receipt **(2 pt)**
+- **`notif` service** · backend
+  - `API-NOTIF-004` · POST /nurse-visits/{id}/confirm/send-sms — send a one-time confirmation code by SMS to the patient's phone **(3 pt)**
 - **nurse app** · frontend (`mfe-nurse`)
-  - `CMP-NUR-008` · SignaturePad — signature **(1 pt)**
+  - `CMP-NUR-008` · SmsReceiptConfirm — send + enter the SMS code the patient reads out **(1 pt)**
 
 ### `T-113` · `NF-A.H10` Submit the visit — **3 pts**
 *happy · depends on: NF-A.H9 · STEP-4A-10*
@@ -695,7 +697,7 @@ Every task has a **`T-###` id** and its flow id. Tasks are happy (`.H`)/unhappy 
 ### `T-117` · `NF-A.U4` Wrong / mismatched vial scanned — **1 pt**
 *unhappy · at NF-A.H8 · resolved by `R-VIAL-RESCAN`*
 
-### `T-118` · `NF-A.U5` Signature capture fails / patient can't sign — **1 pt**
+### `T-118` · `NF-A.U5` SMS not received / patient can't confirm — **1 pt**
 *unhappy · at NF-A.H9 · resolved by `R-OTP-RECEIPT`*
 
 ### `T-119` · `NF-A.U6` Offline mid-visit — **1 pt**
@@ -707,7 +709,7 @@ Every task has a **`T-###` id** and its flow id. Tasks are happy (`.H`)/unhappy 
 ### `T-121` · `R-VIAL-RESCAN` Wrong/mismatched vial — **3 pts**
 *recovery (recovery flow, clinical)*
 
-### `T-122` · `R-OTP-RECEIPT` OTP receipt fallback — **1 pts**
+### `T-122` · `R-OTP-RECEIPT` Resend SMS / manual confirm — **1 pts**
 *recovery (UI handling)*
 
 ### `T-123` · `R-OFFLINE-CAPTURE` Offline capture + sync — **1 pts**
@@ -1241,31 +1243,31 @@ Every task has a **`T-###` id** and its flow id. Tasks are happy (`.H`)/unhappy 
 
 ---
 
-## Shared recoveries (used by several flows) — 13 pts
+## Shared recoveries — 13 pts
 
 ### `T-226` · `R-RESCHEDULE` Reschedule a missed/aborted visit — **2 pts**
-*recovery (recovery flow) · shared*
+*recovery shared*
 
 ### `T-227` · `R-RXFIX` External Rx re-issue + re-link — **2 pts**
-*recovery (recovery flow) · shared*
+*recovery shared*
 
 ### `T-228` · `R-REPLACE` Replacement-dose order — **3 pts**
-*recovery (recovery flow, clinical) · shared*
+*recovery shared*
 
 ### `T-229` · `R-STOCKOUT` Stock-out / shortage at pickup — **2 pts**
-*recovery (recovery flow) · shared*
+*recovery shared*
 
 ### `T-230` · `R-BLOCKED-STATE` Full-screen blocked/rejected state — **1 pts**
-*recovery (UI handling) · shared*
+*recovery shared*
 
 ### `T-231` · `R-INLINE-VALIDATE` Inline validation + retry — **1 pts**
-*recovery (UI handling) · shared*
+*recovery shared*
 
 ### `T-232` · `R-EMPTY-STATE` Designed empty state — **1 pts**
-*recovery (UI handling) · shared*
+*recovery shared*
 
 ### `T-233` · `R-TRACK-FALLBACK` Tracking fallback — **1 pts**
-*recovery (UI handling) · shared*
+*recovery shared*
 
 ---
 

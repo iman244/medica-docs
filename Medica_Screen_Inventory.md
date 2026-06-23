@@ -131,7 +131,7 @@ Cross-cutting screens (`SCR-SHL-*`) — notifications, locale switch — overlay
 | `SCR-NUR-06` | ColdChainEntry | `CMP-NUR-005` | F-433 | `STEP-4A-06` | `API-FIELD-005` | M4 |
 | `SCR-NUR-07` | PreInjectionAssessment | `CMP-NUR-006` | F-434 | `STEP-4A-07` | `API-FIELD-006` | M4 |
 | `SCR-NUR-08` | InjectionRecorder | `CMP-NUR-007` | F-437 | `STEP-4A-08` | `API-FIELD-007` | M4 |
-| `SCR-NUR-09` | SignaturePad | `CMP-NUR-008` | F-441 | `STEP-4A-09` | `API-FIELD-008` | M4 |
+| `SCR-NUR-09` | SmsReceiptConfirm | `CMP-NUR-008` | F-441 | `STEP-4A-09` | `API-FIELD-008`, `API-NOTIF-004` | M4 |
 | `SCR-NUR-10` | VisitSubmit | `CMP-NUR-009` | F-442 | `STEP-4A-10` | `API-FIELD-009` | M4 |
 | `SCR-NUR-11` | SafetyButton | `CMP-NUR-010` | F-443, F-497 | `STEP-4A-11`, `STEP-4A-12`, `STEP-9-09` | `API-FIELD-010`, `API-FIELD-011` | M4, M9 |
 | `SCR-NUR-12` | RouteMapOptimized | `CMP-NUR-020` | F-703, F-704, F-705, F-707, F-708, F-172 | `STEP-5-08`, `STEP-5-10` | `API-FIELD-031/032`, `API-FIELD-034` | M5 |
@@ -249,7 +249,7 @@ Only screens with notable lifecycle states, recovery handoffs, or PHI masking ar
 - `SCR-NUR-05` PatientVisitCard — **minimum-necessary PHI: allergies + current dose only** (PHI matrix §4.B baseline).
 - `SCR-NUR-06` ColdChainEntry — breach → `nurse_visit` blocked (UP-NUR-01, `[clinical]`) → RFLOW-01.
 - `SCR-NUR-08` InjectionRecorder — vial mismatch UP-NUR-02 (`[clinical]`) → RFLOW-03; records `injection_record`.
-- `SCR-NUR-09` SignaturePad — capture fails → OTP fallback UP-NUR-08.
+- `SCR-NUR-09` SmsReceiptConfirm — patient confirms receipt with an SMS one-time code; SMS undelivered → resend / manual confirm UP-NUR-08.
 - `SCR-NUR-10` VisitSubmit — abort → `nurse_visit` aborted (UP-NUR-04) → RFLOW-10.
 - `SCR-NUR-11` SafetyButton — safety alert / emergency escalation UP-NUR-05 → RFLOW-06.
 - `SCR-NUR-12` RouteMapOptimized — Optime down → manual list (UP-NUR-07).
